@@ -198,8 +198,8 @@ theorem cylinderMassOperator_normSq_eq_sum_perMode
     have hp : (0 : ℝ) < (2 : ENNReal).toReal := by norm_num
     have h_lp_sum : Summable (fun n : ℕ => ‖((cylinderMassOperator L mass hmass f) : ℕ → ℝ) n‖ ^ (2 : ENNReal).toReal) := by
       have := lp.memℓp (cylinderMassOperator L mass hmass f)
-      rwa [Memℓp, if_neg (by norm_num : (2 : ENNReal) ≠ 0),
-           if_neg (by norm_num : (2 : ENNReal) ≠ ⊤)] at this
+      rwa [Memℓp, ite_eq_right (by norm_num : (2 : ENNReal) ≠ 0),
+           ite_eq_right (by norm_num : (2 : ENNReal) ≠ ⊤)] at this
     have h_real : (fun n : ℕ => ‖((cylinderMassOperator L mass hmass f) : ℕ → ℝ) n‖ ^ (2 : ENNReal).toReal) =
         (fun n : ℕ => ((cylinderMassOperator L mass hmass f) n) ^ 2) := by
       funext n

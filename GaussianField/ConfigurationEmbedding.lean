@@ -543,7 +543,7 @@ theorem prokhorov_configuration
           by_cases hω : ω ∈ K
           · simp [hg_agree ω hω, Set.indicator, hω]
           · simp only [Set.indicator, Set.mem_compl_iff, hω, not_false_eq_true,
-                if_true, Pi.one_apply, mul_one]
+                ite_true, Pi.one_apply, mul_one]
             calc |f ω - g (configBasisEval ω)|
                 ≤ |f ω| + |g (configBasisEval ω)| := by
                   calc |f ω - g (configBasisEval ω)|

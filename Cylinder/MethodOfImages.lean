@@ -269,7 +269,7 @@ private theorem l2InnerProduct_le_seminorm
     show Continuous fun (x : E) =>
       (FunLike.coeAddMonoidHom (Seminorm ℝ E) E ℝ) (∑ i ∈ s, DyninMityaginSpace.p i) x
     simp_rw [map_sum, Finset.sum_apply]
-    exact continuous_finset_sum _ fun i _ =>
+    exact continuous_finsetSum _ fun i _ =>
       DyninMityaginSpace.h_with.continuous_seminorm i
   -- The bounding series ∑ 1/(1+m)^4 converges
   have h1_4 : Summable (fun m : ℕ => (1 : ℝ) / ((m : ℝ) + 1) ^ 4) := by

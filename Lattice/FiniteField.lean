@@ -167,7 +167,7 @@ noncomputable instance finLatticeField_dyninMityaginSpace :
       · intro b hb hbm
         have hblt : b < Fintype.card (FinLatticeSites d N) := Finset.mem_range.mp hb
         simp only [finLatticeBasisVec, finLatticeDelta, hblt, dite_true]
-        rw [if_neg]
+        rw [ite_eq_right]
         · ring
         · intro heq
           exact hbm ((Fin.val_eq_of_eq ((finLatticeSiteEnum d N).symm.injective heq)).symm)

@@ -438,7 +438,7 @@ private theorem eigenvector_basis
         (by rw [norm_smul, norm_inv, norm_norm, inv_mul_cancel₀ he_norm_ne])
   -- Step 5: Build HilbertBasis
   have h_range : (Submodule.span ℝ (Set.range ((↑) : S → E)))ᗮ = ⊥ := by
-    rwa [Subtype.range_coe_subtype, Set.setOf_mem_eq]
+    rwa [Subtype.range_coe_subtype, Set.ofPred_mem_eq]
   let b := HilbertBasis.mkOfOrthogonalEqBot hSo h_range
   have h_eig : ∀ (x : S), ∃ μ : ℝ, (T : E →ₗ[ℝ] E) (x : E) = μ • (x : E) := by
     intro ⟨x, hx⟩

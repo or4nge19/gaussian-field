@@ -253,7 +253,7 @@ theorem nuclear_clm_basis (y : ℕ → K) (hy : Summable (fun m => ‖y m‖))
              LinearMap.coe_mk, AddHom.coe_mk, ell2_basis]
   simp_rw [lp.coeFn_single, Pi.single_apply]
   simp_rw [ite_smul, one_smul, zero_smul]
-  rw [tsum_eq_single m (fun k hk => if_neg hk)]
+  rw [tsum_eq_single m (fun k hk => ite_eq_right hk)]
   simp
 
 end NuclearOperator
@@ -276,7 +276,7 @@ theorem inner_ell2_basis_eq_coord (x : ell2') (m : ℕ) :
         if k = m then (x : ℕ → ℝ) k else 0 by
       simp only [RCLike.inner_apply, conj_trivial]
       split_ifs <;> simp]
-  rw [tsum_eq_single m (fun k hk => if_neg hk)]
+  rw [tsum_eq_single m (fun k hk => ite_eq_right hk)]
   simp
 
 omit [CompleteSpace K] in
@@ -398,7 +398,7 @@ theorem summable_sqrt_eigenvalues
   set w : ℕ → ell2' := fun n =>
     if Real.sqrt (μ_ n) = 0 then 0 else (Real.sqrt (μ_ n))⁻¹ • A.adjoint (e n)
   have hw_norm : ∀ n, Real.sqrt (μ_ n) ≠ 0 → ‖w n‖ = 1 := by
-    intro n hσ; simp only [w, if_neg hσ, norm_smul, norm_inv, Real.norm_eq_abs]
+    intro n hσ; simp only [w, ite_eq_right hσ, norm_smul, norm_inv, Real.norm_eq_abs]
     rw [abs_of_nonneg (Real.sqrt_nonneg _), hσ_eq, inv_mul_cancel₀]
     rwa [hσ_eq] at hσ
   have hw_orth : ∀ n k, n ≠ k → @inner ℝ ell2' _ (w n) (w k) = 0 := by
@@ -605,7 +605,7 @@ theorem nuclear_sequence_svd
     intro n hσ_ne
     show HasSum (fun m => (if σ_ n = 0 then 0
       else (σ_ n)⁻¹ * (A.adjoint (e n) : ℕ → ℝ) m) ^ 2) 1
-    simp only [if_neg hσ_ne]
+    simp only [ite_eq_right hσ_ne]
     have h := lp.hasSum_inner (𝕜 := ℝ) (A.adjoint (e n)) (A.adjoint (e n))
     rw [real_inner_self_eq_norm_sq] at h
     simp only [real_inner_self_eq_norm_sq, Real.norm_eq_abs, sq_abs] at h
@@ -622,7 +622,7 @@ theorem nuclear_sequence_svd
     show HasSum (fun m =>
       (if σ_ n = 0 then 0 else (σ_ n)⁻¹ * (A.adjoint (e n) : ℕ → ℝ) m) *
       (if σ_ k = 0 then 0 else (σ_ k)⁻¹ * (A.adjoint (e k) : ℕ → ℝ) m)) 0
-    simp only [if_neg hσn, if_neg hσk]
+    simp only [ite_eq_right hσn, ite_eq_right hσk]
     have h_adj_orth : @inner ℝ ell2' _ (A.adjoint (e n)) (A.adjoint (e k)) = 0 := by
       rw [ContinuousLinearMap.adjoint_inner_right A (A.adjoint (e n)) (e k)]
       conv_lhs => rw [show A (A.adjoint (e n)) = (A.comp A.adjoint) (e n) from

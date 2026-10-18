@@ -201,7 +201,7 @@ private theorem oneplusabs_pow_integrable (c : ℝ) (hc : 0 < c)
         (1 : ℝ) ^ k * |x| ^ (d - k) * ↑(d.choose k)) := by
     ext x; exact add_pow 1 |x| d
   rw [hfun]
-  exact integrable_finset_sum _ fun k _ => by
+  exact integrable_finsetSum _ fun k _ => by
     simp only [one_pow, one_mul]; exact (habs (d - k)).mul_const _
 
 /-- Integrability of `wickMonomial n c` under a probability measure satisfying Stein's

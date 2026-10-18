@@ -267,7 +267,7 @@ theorem smoothCircle_withSeminorms :
   ⟨rfl⟩
 
 instance instIsTopologicalAddGroup : IsTopologicalAddGroup (SmoothMap_Circle L ℝ) :=
-  smoothCircle_withSeminorms.topologicalAddGroup
+  smoothCircle_withSeminorms.isTopologicalAddGroup
 
 instance instContinuousSMul : ContinuousSMul ℝ (SmoothMap_Circle L ℝ) :=
   smoothCircle_withSeminorms.continuousSMul
@@ -697,9 +697,9 @@ theorem fourierCoeffReal_fourierBasis (i j : ℕ) :
       rw [h_eq, integral_cos_cos (j / 2 + 1) (i / 2 + 1) (by omega) (by omega)]
       by_cases heq : i + 1 = j + 1
       · have : j / 2 + 1 = i / 2 + 1 := by omega
-        simp only [if_pos this, if_pos heq]; field_simp; exact div_self (ne_of_gt hL.out)
+        simp only [ite_eq_left this, ite_eq_left heq]; field_simp; exact div_self (ne_of_gt hL.out)
       · have : j / 2 + 1 ≠ i / 2 + 1 := by omega
-        simp only [if_neg this, if_neg heq, mul_zero]
+        simp only [ite_eq_right this, ite_eq_right heq, mul_zero]
     · -- hj≠0, hi=0: sin(j)*cos(i)
       have hij : i + 1 ≠ j + 1 := by omega
       -- Integrand: √(2/L)*sin_j * (√(2/L)*cos_i) → factor then swap for integral_cos_sin
@@ -716,7 +716,7 @@ theorem fourierCoeffReal_fourierBasis (i j : ℕ) :
         linarith [mul_comm (Real.sin (2 * Real.pi * ↑(j / 2 + 1) * x / L))
           (Real.cos (2 * Real.pi * ↑(i / 2 + 1) * x / L))]
       rw [h_eq, integral_cos_sin (i / 2 + 1) (j / 2 + 1) (by omega) (by omega), mul_zero]
-      simp only [if_neg hij]
+      simp only [ite_eq_right hij]
     · -- hj=0, hi≠0: cos(j)*sin(i)
       have hij : i + 1 ≠ j + 1 := by omega
       have h_eq : ∫ x in (0 : ℝ)..L,
@@ -728,7 +728,7 @@ theorem fourierCoeffReal_fourierBasis (i j : ℕ) :
         rw [← intervalIntegral.integral_const_mul]
         exact intervalIntegral.integral_congr (fun x _ => factor _ _)
       rw [h_eq, integral_cos_sin (j / 2 + 1) (i / 2 + 1) (by omega) (by omega), mul_zero]
-      simp only [if_neg hij]
+      simp only [ite_eq_right hij]
     · -- hj≠0, hi≠0: sin(j)*sin(i)
       have h_eq : ∫ x in (0 : ℝ)..L,
           Real.sqrt (2 / L) * Real.sin (2 * Real.pi * ↑(j / 2 + 1) * x / L) *
@@ -741,9 +741,9 @@ theorem fourierCoeffReal_fourierBasis (i j : ℕ) :
       rw [h_eq, integral_sin_sin (j / 2 + 1) (i / 2 + 1) (by omega) (by omega)]
       by_cases heq : i + 1 = j + 1
       · have : j / 2 + 1 = i / 2 + 1 := by omega
-        simp only [if_pos this, if_pos heq]; field_simp; exact div_self (ne_of_gt hL.out)
+        simp only [ite_eq_left this, ite_eq_left heq]; field_simp; exact div_self (ne_of_gt hL.out)
       · have : j / 2 + 1 ≠ i / 2 + 1 := by omega
-        simp only [if_neg this, if_neg heq, mul_zero]
+        simp only [ite_eq_right this, ite_eq_right heq, mul_zero]
 
 /-! ### Sobolev seminorm of Fourier basis: polynomial growth -/
 

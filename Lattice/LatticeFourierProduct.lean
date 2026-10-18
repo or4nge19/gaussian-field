@@ -355,7 +355,7 @@ private lemma latticeFourierProductBasisFun_update (d : ℕ) (m : Fin d → Fin 
           Finset.prod (Finset.univ \ {i})
             (fun j => latticeFourierBasisFun N (m j) ((Function.update x i z) j)) := by
               simpa [Function.update] using
-                (Finset.prod_eq_mul_prod_diff_singleton (s := Finset.univ) i
+                (Finset.prod_eq_mul_prod_sdiff_singleton (s := Finset.univ) i
                   (fun j => latticeFourierBasisFun N (m j) ((Function.update x i z) j))
                   (by
                     intro hi
@@ -421,8 +421,8 @@ theorem massOperator_product_eigenvector_family (d : ℕ) (a mass : ℝ) (ha : a
         latticeEigenvalue1d N a (m i) * latticeFourierProductBasisFun N d m x := by
     intro i
     simpa [hplus i, hminus i] using hcoord i
-  simp only [massOperator, ContinuousLinearMap.add_apply,
-    ContinuousLinearMap.neg_apply, ContinuousLinearMap.smul_apply,
+  simp only [massOperator, add_apply,
+    neg_apply, smul_apply,
     ContinuousLinearMap.id_apply, Pi.add_apply, Pi.neg_apply,
     Pi.smul_apply, smul_eq_mul]
   simp only [finiteLaplacian, ContinuousLinearMap.coe_mk',

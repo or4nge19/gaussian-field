@@ -159,8 +159,8 @@ theorem massOperatorAsym_selfAdjoint (Nt Ns : ℕ) [NeZero Nt] [NeZero Ns] (a ma
     (f g : AsymLatticeField Nt Ns) :
     ∑ x, f x * (massOperatorAsym Nt Ns a mass g) x =
     ∑ x, (massOperatorAsym Nt Ns a mass f) x * g x := by
-  simp only [massOperatorAsym, ContinuousLinearMap.add_apply,
-    ContinuousLinearMap.neg_apply, ContinuousLinearMap.smul_apply,
+  simp only [massOperatorAsym, add_apply,
+    neg_apply, smul_apply,
     ContinuousLinearMap.id_apply, Pi.add_apply, Pi.neg_apply, Pi.smul_apply,
     smul_eq_mul]
   have split_l :
@@ -346,8 +346,8 @@ theorem finiteLaplacianAsym_neg_semidefinite (Nt Ns : ℕ) [NeZero Nt] [NeZero N
 theorem massOperatorAsym_pos_def (Nt Ns : ℕ) [NeZero Nt] [NeZero Ns] (a mass : ℝ)
     (ha : 0 < a) (hmass : 0 < mass) (f : AsymLatticeField Nt Ns) (hf : f ≠ 0) :
     0 < ∑ x, f x * (massOperatorAsym Nt Ns a mass f) x := by
-  simp only [massOperatorAsym, ContinuousLinearMap.add_apply,
-    ContinuousLinearMap.neg_apply, ContinuousLinearMap.smul_apply,
+  simp only [massOperatorAsym, add_apply,
+    neg_apply, smul_apply,
     ContinuousLinearMap.id_apply, Pi.add_apply, Pi.neg_apply, Pi.smul_apply,
     smul_eq_mul]
   have split : ∀ x : AsymLatticeSites Nt Ns,
@@ -655,8 +655,8 @@ theorem massOperator_product_eigenvector_asym (Nt Ns : ℕ) [NeZero Nt] [NeZero 
         latticeFourierBasisFun Nt m₁ y.1 * latticeFourierBasisFun Ns m₂ y.2)) x =
     (latticeEigenvalue1d Nt a m₁ + latticeEigenvalue1d Ns a m₂ + mass ^ 2) *
       (latticeFourierBasisFun Nt m₁ x.1 * latticeFourierBasisFun Ns m₂ x.2) := by
-  simp only [massOperatorAsym, ContinuousLinearMap.add_apply,
-    ContinuousLinearMap.neg_apply, ContinuousLinearMap.smul_apply,
+  simp only [massOperatorAsym, add_apply,
+    neg_apply, smul_apply,
     ContinuousLinearMap.id_apply, Pi.add_apply, Pi.neg_apply,
     Pi.smul_apply, smul_eq_mul]
   simp only [finiteLaplacianAsym, ContinuousLinearMap.coe_mk',
@@ -1021,8 +1021,8 @@ private theorem lattice_covariance_pure_eq_2d_spectral_asym (Nt Ns : ℕ) [NeZer
     dsimp only
     rw [← Fintype.sum_mul_sum]
     congr 1
-    · rw [latticeDFTCoeff1d, if_pos m₁.isLt]
-    · rw [latticeDFTCoeff1d, if_pos m₂.isLt]
+    · rw [latticeDFTCoeff1d, ite_eq_left m₁.isLt]
+    · rw [latticeDFTCoeff1d, ite_eq_left m₂.isLt]
   simp_rw [hcoeff]
   symm
   rw [← Fin.sum_univ_eq_sum_range]

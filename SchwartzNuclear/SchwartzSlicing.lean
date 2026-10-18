@@ -686,7 +686,7 @@ private lemma euclideanSnoc_Pi_single_norm_le (d : ℕ) (t : ℝ) :
       simp only [EuclideanSpace.equiv, PiLp.continuousLinearEquiv_symm_apply,
         PiLp.toLp_apply, Pi.single_apply]
       by_cases hi : i = Fin.last (d + 1) <;> simp [hi]
-    simp_rw [this, Finset.sum_ite_eq', Finset.mem_univ, if_true]]
+    simp_rw [this, Finset.sum_ite_eq', Finset.mem_univ, ite_true]]
   exact le_of_eq (Real.sqrt_sq (norm_nonneg t))
 
 /-- The map `t ↦ euclideanSnoc y t` is smooth (affine in `t`). -/

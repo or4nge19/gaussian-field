@@ -150,7 +150,7 @@ theorem rapidDecay_withSeminorms :
   ⟨rfl⟩
 
 instance instIsTopologicalAddGroup : IsTopologicalAddGroup RapidDecaySeq :=
-  rapidDecay_withSeminorms.topologicalAddGroup
+  rapidDecay_withSeminorms.isTopologicalAddGroup
 
 instance instContinuousSMul : ContinuousSMul ℝ RapidDecaySeq :=
   rapidDecay_withSeminorms.continuousSMul
@@ -442,15 +442,15 @@ theorem hasSum_basisVec (a : RapidDecaySeq) :
         (fun n => by split <;> simp [hg_nn])
         hg_sum
     have h_fin_summable : Summable (fun n => if (n ∈ s) then g n else (0 : ℝ)) :=
-      summable_of_ne_finset_zero (s := s) (fun n hn => if_neg hn)
+      summable_of_ne_finset_zero (s := s) (fun n hn => ite_eq_right hn)
     have h_split : ∑' n, g n =
         ∑' n, (if (n ∈ s) then g n else (0 : ℝ)) +
         ∑' n, (if (n ∈ s) then (0 : ℝ) else g n) := by
       rw [← h_fin_summable.tsum_add h_compl_summable]
       congr 1; ext n; split <;> simp
     have h_fin_eq : ∑' n, (if (n ∈ s) then g n else (0 : ℝ)) = ∑ n ∈ s, g n := by
-      rw [tsum_eq_sum (fun n hn => if_neg hn)]
-      exact Finset.sum_congr rfl (fun n hn => if_pos hn)
+      rw [tsum_eq_sum (fun n hn => ite_eq_right hn)]
+      exact Finset.sum_congr rfl (fun n hn => ite_eq_left hn)
     linarith⟩
 
 theorem rapidDecay_expansion (φ : RapidDecaySeq →L[ℝ] ℝ) (a : RapidDecaySeq) :
@@ -1022,7 +1022,7 @@ private theorem finsetSup_seminorm_ball_mem_nhds
       (show (0 : F) ∈ {x | q i x < ε} by simp [map_zero, hε])
   apply Filter.mem_of_superset hmem
   intro x hx
-  simp only [Set.mem_iInter, Set.mem_setOf_eq] at hx ⊢
+  simp only [Set.mem_iInter, Set.mem_ofPred_eq] at hx ⊢
   rcases Seminorm.zero_or_exists_apply_eq_finset_sup q t x with h | ⟨i, hi, heq⟩
   · linarith
   · linarith [hx i hi]
@@ -1055,7 +1055,7 @@ theorem pure_continuous :
     rw [nhds_prod_eq]
     apply Filter.mem_of_superset (Filter.prod_mem_prod h_mem₁ h_mem₂)
     intro ⟨e₁, e₂⟩ ⟨he₁, he₂⟩
-    simp only [Set.mem_setOf_eq] at he₁ he₂ ⊢
+    simp only [Set.mem_ofPred_eq] at he₁ he₂ ⊢
     have hpure : RapidDecaySeq.rapidDecaySeminorm k (pure e₁ e₂) < ε := by
       calc RapidDecaySeq.rapidDecaySeminorm k (pure e₁ e₂)
         ≤ ↑C * (s₁.sup DyninMityaginSpace.p) e₁ * (s₂.sup DyninMityaginSpace.p) e₂ :=

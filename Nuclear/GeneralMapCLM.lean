@@ -85,7 +85,7 @@ private theorem mapImageGen_seminorm_bound (T₁ : E₁ →L[ℝ] F₁) (T₂ : 
     show Continuous fun (x : F₁) =>
       (FunLike.coeAddMonoidHom (Seminorm ℝ F₁) F₁ ℝ) (∑ i ∈ s₁, DyninMityaginSpace.p i) x
     simp_rw [map_sum, Finset.sum_apply]
-    exact continuous_finset_sum _ fun i _ =>
+    exact continuous_finsetSum _ fun i _ =>
       DyninMityaginSpace.h_with.continuous_seminorm i
   obtain ⟨t₁, C₁nn, hC₁nn, hle₁⟩ := Seminorm.bound_of_continuous
     DyninMityaginSpace.h_with _ hT₁_cont
@@ -95,7 +95,7 @@ private theorem mapImageGen_seminorm_bound (T₁ : E₁ →L[ℝ] F₁) (T₂ : 
     show Continuous fun (x : F₂) =>
       (FunLike.coeAddMonoidHom (Seminorm ℝ F₂) F₂ ℝ) (∑ i ∈ s₂, DyninMityaginSpace.p i) x
     simp_rw [map_sum, Finset.sum_apply]
-    exact continuous_finset_sum _ fun i _ =>
+    exact continuous_finsetSum _ fun i _ =>
       DyninMityaginSpace.h_with.continuous_seminorm i
   obtain ⟨t₂, C₂nn, hC₂nn, hle₂⟩ := Seminorm.bound_of_continuous
     DyninMityaginSpace.h_with _ hT₂_cont
@@ -349,7 +349,7 @@ private theorem norm_summable_coeff_comp_CLM_general
     show Continuous fun (x : F) =>
       (FunLike.coeAddMonoidHom (Seminorm ℝ F) F ℝ) (∑ i ∈ s₀, DyninMityaginSpace.p i) x
     simp_rw [map_sum, Finset.sum_apply]
-    exact continuous_finset_sum _ fun i _ =>
+    exact continuous_finsetSum _ fun i _ =>
       DyninMityaginSpace.h_with.continuous_seminorm i
   obtain ⟨t, Dnn, hDnn, hle⟩ := Seminorm.bound_of_continuous
     DyninMityaginSpace.h_with _ hT_cont

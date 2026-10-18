@@ -167,7 +167,7 @@ theorem lattice_withSeminorms :
   ⟨rfl⟩
 
 instance instIsTopologicalAddGroup : IsTopologicalAddGroup (RapidDecayLattice d) :=
-  lattice_withSeminorms.topologicalAddGroup
+  lattice_withSeminorms.isTopologicalAddGroup
 
 instance instContinuousSMul : ContinuousSMul ℝ (RapidDecayLattice d) :=
   lattice_withSeminorms.continuousSMul
@@ -209,13 +209,13 @@ private lemma natAbs_intEquivNat_symm_le_succ (n : ℕ) :
   change Int.natAbs (Sum.elim Int.ofNat Int.negSucc
     (if n.bodd = true then Sum.inr n.div2 else Sum.inl n.div2)) ≤ n + 1
   by_cases h : n.bodd = true
-  · rw [if_pos h]
+  · rw [ite_eq_left h]
     simp
     have hd : n.div2 ≤ n := by
       have hb := Nat.bodd_add_div2 n
       omega
     omega
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     simp
     have hd : n.div2 ≤ n := by
       have hb := Nat.bodd_add_div2 n

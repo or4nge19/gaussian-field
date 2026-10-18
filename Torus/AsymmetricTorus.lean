@@ -110,7 +110,7 @@ def asymTorusEmbedCLM (Nt Ns : ℕ) [NeZero Nt] [NeZero Ns]
   map_smul' r f := by
     simp only [map_smul, smul_eq_mul, mul_left_comm, Finset.mul_sum, RingHom.id_apply]
   cont := by
-    apply continuous_finset_sum
+    apply continuous_finsetSum
     intro x _
     exact continuous_const.mul (evalAsymTorusAtSite Lt Ls Nt Ns x).cont
 

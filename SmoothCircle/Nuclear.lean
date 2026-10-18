@@ -635,8 +635,8 @@ theorem toRapidDecay_fromRapidDecay (a : RapidDecaySeq) :
   simp_rw [fourierCoeffReal_fourierBasis]
   -- ∑' n, a_n * (if m = n then 1 else 0) = a_m
   have h_zero : ∀ n, n ≠ m → a.val n * (if m = n then (1 : ℝ) else 0) = 0 :=
-    fun n hn => by rw [if_neg (Ne.symm hn), mul_zero]
-  rw [tsum_eq_single m h_zero, if_pos rfl, mul_one]
+    fun n hn => by rw [ite_eq_right (Ne.symm hn), mul_zero]
+  rw [tsum_eq_single m h_zero, ite_eq_left rfl, mul_one]
 
 /-! ## Fourier series convergence -/
 

@@ -112,8 +112,8 @@ theorem lattice_covariance_pure_eq_2d_spectral
     rw [← Fintype.sum_mul_sum]
     -- Identify with latticeDFTCoeff1d
     congr 1
-    · rw [latticeDFTCoeff1d, if_pos m₁.isLt]
-    · rw [latticeDFTCoeff1d, if_pos m₂.isLt]
+    · rw [latticeDFTCoeff1d, ite_eq_left m₁.isLt]
+    · rw [latticeDFTCoeff1d, ite_eq_left m₂.isLt]
   -- Step 3: Rewrite the inner DFT coefficients using hcoeff
   simp_rw [hcoeff]
   -- Step 4: Convert ∑ range (N+1) to ∑ Fin (N+1) on the RHS and match
