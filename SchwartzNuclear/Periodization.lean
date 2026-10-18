@@ -636,7 +636,7 @@ theorem periodize_sobolevSeminorm_le (k : ℕ) :
         · -- crude bound: ‖D^k h(y)‖ ≤ Semi h * A
           have hbd' : (1 + ‖x + ↑j * L‖) ^ (k + 2) *
               ‖iteratedDeriv k (⇑h) (x + ↑j * L)‖ ≤ 2 ^ (k + 2) * Semi h := by
-            convert hbd using 2
+            convert hbd using 2; rfl
           have h1 : 1 ≤ (1 + ‖x + ↑j * L‖) ^ (k + 2) :=
             one_le_pow₀ (by linarith [norm_nonneg (x + ↑j * L)])
           linarith [le_mul_of_one_le_left
@@ -646,7 +646,7 @@ theorem periodize_sobolevSeminorm_le (k : ℕ) :
           -- Simplify hbd
           have hbd' : (1 + ‖x + ↑j * L‖) ^ (k + 2) *
               ‖iteratedDeriv k (⇑h) (x + ↑j * L)‖ ≤ 2 ^ (k + 2) * Semi h := by
-            convert hbd using 2
+            convert hbd using 2; rfl
           -- |j| ≥ 1
           have hj_pos : (0 : ℝ) < (↑|j| : ℝ) :=
             by exact_mod_cast (show 0 < |j| from by omega)

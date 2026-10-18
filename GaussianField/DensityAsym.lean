@@ -653,8 +653,9 @@ theorem normalizedGaussianDensityMeasureAsym_linearFourier
       (integral_withDensity_eq_integral_toReal_smul
         (μ := volume) (f := gaussianDensityWeightAsym Nt Ns a mass)
         (f_meas := by
-          simpa [gaussianDensityWeightAsym] using
-            (gaussianDensityAsym_measurable Nt Ns a mass).ennreal_ofReal)
+          change Measurable (fun φ : AsymLatticeField Nt Ns =>
+            ENNReal.ofReal (gaussianDensityAsym Nt Ns a mass φ))
+          exact (gaussianDensityAsym_measurable Nt Ns a mass).ennreal_ofReal)
         (hf_lt_top := hflt)
         (g := fun φ : AsymLatticeField Nt Ns =>
           Complex.exp (Complex.I * ↑(∑ x : AsymLatticeSites Nt Ns, f x * φ x))))
@@ -903,7 +904,7 @@ theorem latticeGaussianFieldLawAsym_eq_normalizedQuadraticGaussianMeasure
     letI : MeasureTheory.IsProbabilityMeasure
         (latticeGaussianFieldLawAsym Nt Ns a mass ha hmass) := by
       rw [latticeGaussianFieldLawAsym]
-      exact Measure.isProbabilityMeasure_map (measurable_evalMapAsym Nt Ns).aemeasurable
+      exact inferInstance
     infer_instance
   exact MeasureTheory.Measure.ext_of_charFunDual <|
     (normalizedGaussianDensityMeasureAsym_charFunDual_eq_latticeGaussianFieldLawAsym

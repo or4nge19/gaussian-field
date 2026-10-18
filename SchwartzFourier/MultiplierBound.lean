@@ -177,7 +177,7 @@ theorem resolventMultiplier_pointwise_bound
         (1 / ω) * ‖FourierTransform.fourier (Complex.ofReal ∘ ⇑f) p‖) := by
       simpa using ((show Integrable (fun p =>
           ‖FourierTransform.fourier (Complex.ofReal ∘ ⇑f) p‖) from by
-        simpa [Function.comp] using
+        exact
           ((FourierTransform.fourier
             ((SchwartzMap.postcompCLM Complex.ofRealCLM) f)).integrable.norm)).const_mul (1 / ω))
     have hle : ∀ p, ‖h p‖ ≤

@@ -149,7 +149,7 @@ private theorem stein_even_moment_integrable (c : ℝ) (hc : 0 < c)
     -- Apply Stein to f(x) = x^(2m+1)
     have hstein := hμ_stein (fun x => x ^ (2 * m + 1)) (differentiable_pow _)
       ⟨1, 2 * m + 1, fun x => by
-        simp only; rw [abs_pow, one_mul]
+        rw [abs_pow, one_mul]
         exact pow_le_pow_left₀ (abs_nonneg x) (le_add_of_nonneg_left one_pos.le) _⟩
     -- Rewrite LHS: ∫ x * x^(2m+1) = ∫ x^(2(m+1))
     have hlhs : ∫ x : ℝ, x * x ^ (2 * m + 1) ∂μ = ∫ x : ℝ, x ^ (2 * (m + 1)) ∂μ := by

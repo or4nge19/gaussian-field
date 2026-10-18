@@ -267,7 +267,7 @@ private theorem l2InnerProduct_le_seminorm
   have hq_cont : Continuous q := by
     apply Seminorm.continuous_of_le _ (Seminorm.finset_sup_le_sum _ _)
     show Continuous fun (x : E) =>
-      (Seminorm.coeFnAddMonoidHom ℝ E) (∑ i ∈ s, DyninMityaginSpace.p i) x
+      (FunLike.coeAddMonoidHom (Seminorm ℝ E) E ℝ) (∑ i ∈ s, DyninMityaginSpace.p i) x
     simp_rw [map_sum, Finset.sum_apply]
     exact continuous_finset_sum _ fun i _ =>
       DyninMityaginSpace.h_with.continuous_seminorm i
