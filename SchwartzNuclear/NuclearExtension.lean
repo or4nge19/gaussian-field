@@ -89,7 +89,7 @@ theorem DyninMityaginSpace.summable_coeff_mul_polyBounded
   exact this.congr (fun m => by rw [one_div]; congr 1; ring)
 
 /-- The linear map `f ↦ Σ coeff_m(f) · v_m`. -/
-private def DyninMityaginSpace.extensionLM (v : ℕ → ℝ) (hv : PolyBounded v) :
+def DyninMityaginSpace.extensionLM (v : ℕ → ℝ) (hv : PolyBounded v) :
     E →ₗ[ℝ] ℝ where
   toFun f := ∑' m, DyninMityaginSpace.coeff (E := E) m f * v m
   map_add' f g := by

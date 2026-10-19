@@ -257,7 +257,7 @@ private lemma clm_zero_of_basis_zero {E : Type*} [AddCommGroup E] [Module ℝ E]
   ext f; rw [DyninMityaginSpace.expansion φ f]; simp [h]
 
 /-- Currying as a continuous linear equivalence on finite function spaces. -/
-private noncomputable def curryCLE (n d : ℕ) :
+noncomputable def curryCLE (n d : ℕ) :
     ((Fin n × Fin d) → ℝ) ≃L[ℝ] (Fin n → Fin d → ℝ) := by
   refine ContinuousLinearEquiv.mk (LinearEquiv.curry ℝ ℝ (Fin n) (Fin d)) ?_ ?_
   · simpa [LinearEquiv.curry, Function.curry] using

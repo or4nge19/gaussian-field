@@ -625,7 +625,7 @@ theorem massOperatorCoord_decay (mass : ℝ) (hmass : 0 < mass) :
 /-! ## Mass operator definition -/
 
 /-- Helper: package the decay bound for `nuclear_ell2_embedding_from_decay`. -/
-private theorem massOperator_ell2_embedding (mass : ℝ) (hmass : 0 < mass) :
+theorem massOperator_ell2_embedding (mass : ℝ) (hmass : 0 < mass) :
     ∃ (j : CylinderTestFunction L →L[ℝ] ell2'),
       ∀ (f : CylinderTestFunction L) (m : ℕ),
         (j f : ℕ → ℝ) m = massOperatorCoord L mass hmass m f := by

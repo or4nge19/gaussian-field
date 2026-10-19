@@ -77,6 +77,7 @@ public import GaussianField.StandardGaussianBridge
 public import GaussianField.Wick
 public import SchwartzNuclear.HermiteWick
 public import SchwartzNuclear.HermiteFunctions
+public import Mathlib.Data.Nat.Choose.Multinomial
 
 @[expose] public section
 
@@ -368,7 +369,7 @@ identity decouples `gffSiteVariance` from the explicit `(a^d)⁻¹` and
 `λ_j⁻¹` factors. -/
 
 /-- The orthogonalized eigenvector coefficient: `γ_j(x) = e_j(x) / √(a^d λ_j)`. -/
-private noncomputable def gffEigenCoeff
+noncomputable def gffEigenCoeff
     (a mass : ℝ) (j x : FinLatticeSites d N) : ℝ :=
   (massEigenvectorBasis d N a mass j : EuclideanSpace ℝ _) x /
     Real.sqrt (a^d * massEigenvalues d N a mass j)

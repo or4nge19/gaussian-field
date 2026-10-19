@@ -269,7 +269,7 @@ private lemma shift_rapid_decay {d : ℕ} (f : RapidDecayLattice d)
     exact h_sum.const_smul (2 ^ k : ℝ)
 
 /-- The raw function for the infinite Laplacian. -/
-private def infiniteLaplacianFun (d : ℕ) (a : ℝ)
+def infiniteLaplacianFun (d : ℕ) (a : ℝ)
     (f : RapidDecayLattice d) (x : Fin d → ℤ) : ℝ :=
   a⁻¹ ^ 2 * ∑ i : Fin d,
     (f.val (fun j => x j + stdBasisInt d i j) +
@@ -432,9 +432,9 @@ private lemma infiniteLaplacian_rapid_decay (d : ℕ) (a : ℝ)
     (fun x => mul_nonneg (abs_nonneg _) (RapidDecayLattice.weight_nonneg x k)) h_pw
 
 /-- The infinite Laplacian as a linear map on rapid decay functions. -/
-private def infiniteLaplacianLM (d : ℕ) (a : ℝ) :
+def infiniteLaplacianLM (d : ℕ) (a : ℝ) :
     RapidDecayLattice d →ₗ[ℝ] RapidDecayLattice d where
-  toFun f := ⟨infiniteLaplacianFun d a f, infiniteLaplacian_rapid_decay d a f⟩
+  toFun f := ⟨infiniteLaplacianFun d a f, by exact infiniteLaplacian_rapid_decay d a f⟩
   map_add' f g := by
     ext x; simp only [infiniteLaplacianFun, RapidDecayLattice.add_val]
     rw [← mul_add, ← Finset.sum_add_distrib]

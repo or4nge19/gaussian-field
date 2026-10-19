@@ -79,7 +79,7 @@ A bounded weight sequence `w : ℕ → ℝ` with `|w_n| ≤ 1` defines a CLM
 on `RapidDecaySeq` by pointwise multiplication. -/
 
 /-- Pointwise multiplication by a bounded sequence preserves rapid decay. -/
-private def diagMulFun (w : ℕ → ℝ) (hw : ∀ n, |w n| ≤ 1)
+def diagMulFun (w : ℕ → ℝ) (hw : ∀ n, |w n| ≤ 1)
     (a : RapidDecaySeq) : RapidDecaySeq where
   val n := w n * a.val n
   rapid_decay k := by
@@ -96,7 +96,7 @@ private def diagMulFun (w : ℕ → ℝ) (hw : ∀ n, |w n| ≤ 1)
         _ = |a.val n| * (1 + (n : ℝ)) ^ k := by ring
     · exact a.rapid_decay k
 
-private def diagMulLM (w : ℕ → ℝ) (hw : ∀ n, |w n| ≤ 1) :
+def diagMulLM (w : ℕ → ℝ) (hw : ∀ n, |w n| ≤ 1) :
     RapidDecaySeq →ₗ[ℝ] RapidDecaySeq where
   toFun := diagMulFun w hw
   map_add' a b := by
@@ -126,13 +126,13 @@ private theorem diagMul_isBounded (w : ℕ → ℝ) (hw : ∀ n, |w n| ≤ 1) :
     (a.rapid_decay k)
 
 /-- Diagonal multiplication by a bounded (|w_n| ≤ 1) sequence as a CLM. -/
-private def diagMulCLM (w : ℕ → ℝ) (hw : ∀ n, |w n| ≤ 1) :
+def diagMulCLM (w : ℕ → ℝ) (hw : ∀ n, |w n| ≤ 1) :
     RapidDecaySeq →L[ℝ] RapidDecaySeq where
   toLinearMap := diagMulLM w hw
   cont := WithSeminorms.continuous_of_isBounded
     RapidDecaySeq.rapidDecay_withSeminorms
     RapidDecaySeq.rapidDecay_withSeminorms
-    (diagMulLM w hw) (diagMul_isBounded w hw)
+    (diagMulLM w hw) (by exact diagMul_isBounded w hw)
 
 @[simp] private theorem diagMulCLM_val (w : ℕ → ℝ) (hw : ∀ n, |w n| ≤ 1)
     (a : RapidDecaySeq) (n : ℕ) :

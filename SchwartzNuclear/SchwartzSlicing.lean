@@ -184,11 +184,13 @@ noncomputable def schwartz_slice (d : ℕ)
     SchwartzMap ℝ ℝ where
   toFun t := f (euclideanSnoc (d + 1) y t)
   smooth' :=
-    (compCLMOfAntilipschitz ℝ (euclideanSnoc_hasTemperateGrowth d y)
-      (euclideanSnoc_antilipschitz d y) f).smooth'
+    (compCLMOfAntilipschitz ℝ (by exact euclideanSnoc_hasTemperateGrowth d y)
+      (show AntilipschitzWith 1 (euclideanSnoc (d + 1) y) by
+        exact euclideanSnoc_antilipschitz d y) f).smooth'
   decay' :=
-    (compCLMOfAntilipschitz ℝ (euclideanSnoc_hasTemperateGrowth d y)
-      (euclideanSnoc_antilipschitz d y) f).decay'
+    (compCLMOfAntilipschitz ℝ (by exact euclideanSnoc_hasTemperateGrowth d y)
+      (show AntilipschitzWith 1 (euclideanSnoc (d + 1) y) by
+        exact euclideanSnoc_antilipschitz d y) f).decay'
 
 /-! ## A2: Partial Hermite coefficient is Schwartz
 
@@ -585,8 +587,8 @@ noncomputable def schwartz_partial_hermiteCoeff (d : ℕ)
     (n : ℕ) :
     SchwartzMap (EuclideanSpace ℝ (Fin (d + 1))) ℝ where
   toFun y := hermiteCoeff1D n (schwartz_slice d f y)
-  smooth' := schwartz_partial_hermiteCoeff_smooth d f n
-  decay' := schwartz_partial_hermiteCoeff_decay d f n
+  smooth' := by exact schwartz_partial_hermiteCoeff_smooth d f n
+  decay' := by exact schwartz_partial_hermiteCoeff_decay d f n
 
 -- A3b: Partial coefficient relates to 1D slice (definitionally true)
 lemma schwartz_partial_hermiteCoeff_eq_1D (d : ℕ)

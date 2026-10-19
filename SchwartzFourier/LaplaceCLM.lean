@@ -94,7 +94,7 @@ private lemma laplace_integral_le_l1_norm (f : SchwartzMap ℝ ℝ) (ω : ℝ) (
 /-! ## Laplace evaluation CLM construction -/
 
 /-- The Laplace evaluation as a linear map. -/
-private def laplaceEvalLinear (ω : ℝ) (hω : 0 < ω) : SchwartzMap ℝ ℝ →ₗ[ℝ] ℝ where
+def laplaceEvalLinear (ω : ℝ) (hω : 0 < ω) : SchwartzMap ℝ ℝ →ₗ[ℝ] ℝ where
   toFun f := ∫ t in Ici (0 : ℝ), f.toFun t * exp (-ω * t)
   map_add' f g := by
     show ∫ t in Ici (0 : ℝ), (f + g).toFun t * exp (-ω * t) = _

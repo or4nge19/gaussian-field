@@ -498,6 +498,7 @@ private lemma hilbertEmbedding_inner (hfin : FiniteDimensional ℝ H) (x y : H) 
     variables under the series limit map. Works for both finite- and
     infinite-dimensional H: in the finite-dimensional case, H is embedded
     isometrically into ℓ² and the construction is applied there. -/
+@[no_expose]
 def measure (T : E →L[ℝ] H) :
     @Measure (Configuration E) instMeasurableSpaceConfiguration :=
   if hfin : FiniteDimensional ℝ H then

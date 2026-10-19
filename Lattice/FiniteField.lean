@@ -54,7 +54,7 @@ This means rapid decay holds trivially (eventually-zero sequences). -/
 variable (d N : ℕ) [NeZero N]
 
 /-- Enumeration of finite lattice sites via Fintype. -/
-private noncomputable def finLatticeSiteEnum :
+noncomputable def finLatticeSiteEnum :
     FinLatticeSites d N ≃ Fin (Fintype.card (FinLatticeSites d N)) :=
   Fintype.equivFin _
 

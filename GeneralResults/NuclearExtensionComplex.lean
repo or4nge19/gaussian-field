@@ -145,7 +145,7 @@ def complexProductTensor {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] 
      contDiff_prod (fun i _ => (fs i).smooth'.comp
        ((ContinuousLinearMap.proj (R := ℝ) (φ := fun _ : Fin (n + 1) => E) i).contDiff.of_le
          le_top)),
-     fun k m => complex_product_decay (Nat.succ_pos n) fs k m⟩
+     fun k m => by exact complex_product_decay (Nat.succ_pos n) fs k m⟩
 
 /-- Pointwise evaluation of the complex product tensor. -/
 theorem complexProductTensor_apply {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
@@ -478,7 +478,7 @@ private def schwartzPointEvalCLM (E : Type*) [NormedAddCommGroup E] [NormedSpace
     have h := SchwartzMap.le_seminorm ℂ 0 0 f x₀; simp at h
     calc ‖f x₀‖ ≤ (SchwartzMap.seminorm ℂ 0 0) f := h
       _ = (schwartzSeminormFamily ℂ E ℂ (0, 0)) f := by
-          unfold schwartzSeminormFamily SchwartzMap.seminorm; simp
+          unfold schwartzSeminormFamily; rfl
   exact ⟨L, (schwartz_withSeminorms ℂ E ℂ).continuous_of_isBounded
     (norm_withSeminorms ℂ ℂ) L hbdd⟩
 

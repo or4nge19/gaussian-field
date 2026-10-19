@@ -190,7 +190,7 @@ and coordinate peeling (`Fin.succFunEquiv`). -/
 /-- Cantor-pairing enumeration of ℤ^{d+1}: bijection with ℕ via iterated
 pairing. Constructed using `Fin.succFunEquiv` (peeling off one coordinate)
 and `Denumerable.eqv` (encoding products and ℤ as ℕ). -/
-private def latticeEnumSucc : (d : ℕ) → (Fin (d + 1) → ℤ) ≃ ℕ
+def latticeEnumSucc : (d : ℕ) → (Fin (d + 1) → ℤ) ≃ ℕ
   | 0 => (Equiv.funUnique (Fin 1) ℤ).trans Equiv.intEquivNat
   | d + 1 =>
     (Fin.succFunEquiv ℤ (d + 1)).trans

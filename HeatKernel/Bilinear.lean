@@ -75,7 +75,7 @@ variable {E : Type*} [AddCommGroup E] [Module ℝ E]
   [ContinuousSMul ℝ E] [DyninMityaginSpace E]
 
 /-- Helper: the m-th term of the L² inner product series. -/
-private def l2Term (f g : E) (m : ℕ) : ℝ :=
+def l2Term (f g : E) (m : ℕ) : ℝ :=
   DyninMityaginSpace.coeff m f * DyninMityaginSpace.coeff m g
 
 /-- **L² inner product via Schauder coefficients.**
@@ -131,7 +131,7 @@ theorem l2InnerProduct_summable (f g : E) :
 /-! ## Heat kernel bilinear form -/
 
 /-- Helper: the m-th term of the heat kernel series. -/
-private def heatKernelTerm [HasLaplacianEigenvalues E] (t : ℝ) (f g : E) (m : ℕ) : ℝ :=
+def heatKernelTerm [HasLaplacianEigenvalues E] (t : ℝ) (f g : E) (m : ℕ) : ℝ :=
   Real.exp (-t * HasLaplacianEigenvalues.eigenvalue (E := E) m) *
     DyninMityaginSpace.coeff m f * DyninMityaginSpace.coeff m g
 
@@ -238,7 +238,7 @@ theorem heatKernelBilinear_le_l2 [HasLaplacianEigenvalues E]
 /-! ## Green's function -/
 
 /-- Helper: the m-th term of the Green's function series. -/
-private def greenTerm [HasLaplacianEigenvalues E]
+def greenTerm [HasLaplacianEigenvalues E]
     (mass : ℝ) (f g : E) (m : ℕ) : ℝ :=
   DyninMityaginSpace.coeff m f * DyninMityaginSpace.coeff m g /
     (HasLaplacianEigenvalues.eigenvalue (E := E) m + mass ^ 2)

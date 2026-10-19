@@ -27,7 +27,7 @@ open scoped BigOperators
 namespace GaussianField
 
 /-- Enumeration of heterogeneous lattice sites via Fintype. -/
-private noncomputable def asymLatticeSiteEnum (Nt Ns : ℕ) [NeZero Nt] [NeZero Ns] :
+noncomputable def asymLatticeSiteEnum (Nt Ns : ℕ) [NeZero Nt] [NeZero Ns] :
     AsymLatticeSites Nt Ns ≃ Fin (Fintype.card (AsymLatticeSites Nt Ns)) :=
   Fintype.equivFin _
 
