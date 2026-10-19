@@ -22,9 +22,12 @@ and the general result follows by induction on `n`.
 - Gel'fand-Vilenkin, "Generalized Functions" Vol. 4, Ch. 3-4
 - Trèves, "Topological Vector Spaces, Distributions and Kernels", Ch. 51
 -/
+module
 
-import SchwartzNuclear.HermiteNuclear
-import Nuclear.NuclearTensorProduct
+public import SchwartzNuclear.HermiteNuclear
+public import Nuclear.NuclearTensorProduct
+
+@[expose] public section
 
 noncomputable section
 

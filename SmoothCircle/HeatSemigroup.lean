@@ -32,8 +32,11 @@ Since `e^{-tλ_n} ≤ 1` for t ≥ 0, this preserves rapid decay.
 - Reed-Simon, *Methods of Modern Mathematical Physics* Vol. II, §X.12
 - Evans, *Partial Differential Equations*, §2.3
 -/
+module
 
-import SmoothCircle.Laplacian
+public import SmoothCircle.Laplacian
+
+@[expose] public section
 
 noncomputable section
 

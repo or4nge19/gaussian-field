@@ -26,12 +26,15 @@ recurrence from `HermiteFunctions.lean`.
 - Simon, *The P(φ)₂ Euclidean QFT*, §I.3
 - Glimm-Jaffe, *Quantum Physics*, §8.6
 -/
+module
 
-import SchwartzNuclear.HermiteFunctions
-import Mathlib.Analysis.SpecialFunctions.Pow.NNReal
-import Mathlib.Data.Nat.Choose.Basic
-import Mathlib.Data.Nat.Factorial.BigOperators
-import Mathlib.Data.Fintype.Pi
+public import SchwartzNuclear.HermiteFunctions
+public import Mathlib.Analysis.SpecialFunctions.Pow.NNReal
+public import Mathlib.Data.Nat.Choose.Basic
+public import Mathlib.Data.Nat.Factorial.BigOperators
+public import Mathlib.Data.Fintype.Pi
+
+@[expose] public section
 
 noncomputable section
 

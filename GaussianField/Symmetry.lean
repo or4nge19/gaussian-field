@@ -28,13 +28,16 @@ specialization of `measure_invariant_of_covariance_preserved`.
   Configuration-side negation invariance through `evalMap` to the
   field-law side.
 -/
+module
 
-import GaussianField.MeasureUniqueness
-import GaussianField.Properties
-import Lattice.Covariance
-import GaussianField.Density
-import Mathlib.MeasureTheory.Group.Measure
-import Mathlib.Topology.MetricSpace.Basic
+public import GaussianField.MeasureUniqueness
+public import GaussianField.Properties
+public import Lattice.Covariance
+public import GaussianField.Density
+public import Mathlib.MeasureTheory.Group.Measure
+public import Mathlib.Topology.MetricSpace.Basic
+
+@[expose] public section
 
 noncomputable section
 

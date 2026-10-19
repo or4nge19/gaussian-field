@@ -26,8 +26,11 @@ Eigenvalues on (ℤ/Nℤ)²:
 
 The mass operator eigenvalues `λ + m²` satisfy `λ + m² ≥ m² > 0`.
 -/
+module
 
-import Lattice.Laplacian
+public import Lattice.Laplacian
+
+@[expose] public section
 
 noncomputable section
 

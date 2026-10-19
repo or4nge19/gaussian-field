@@ -24,12 +24,15 @@ Euclidean operators on the cylinder via a single parametric lemma.
 * `cylinderMassOperator_timeReflection_norm_eq_proved` — concrete
   discharge for time reflection via the parametric lemma.
 -/
+module
 
-import Cylinder.MassOperatorConstruction
-import Cylinder.FourierMultiplier
-import SchwartzNuclear.HermiteHilbertBasis
-import Nuclear.NuclearExtension
-import HeatKernel.GreenInvariance
+public import Cylinder.MassOperatorConstruction
+public import Cylinder.FourierMultiplier
+public import SchwartzNuclear.HermiteHilbertBasis
+public import Nuclear.NuclearExtension
+public import HeatKernel.GreenInvariance
+
+@[expose] public section
 
 noncomputable section
 

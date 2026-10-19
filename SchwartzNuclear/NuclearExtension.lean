@@ -18,11 +18,14 @@ uniquely to a continuous linear functional on the Schwartz space of the product 
 - Gel'fand-Vilenkin, "Generalized Functions" Vol. 4, Ch. I §3
 - Reed-Simon, "Methods of Modern Mathematical Physics I", Theorem V.13
 -/
+module
 
-import SchwartzNuclear.HermiteNuclear
-import SchwartzNuclear.TsumBound
-import GeneralResults.SchwartzProducts
-import Mathlib.Topology.Algebra.InfiniteSum.Ring
+public import SchwartzNuclear.HermiteNuclear
+public import SchwartzNuclear.TsumBound
+public import GeneralResults.SchwartzProducts
+public import Mathlib.Topology.Algebra.InfiniteSum.Ring
+
+@[expose] public section
 
 noncomputable section
 

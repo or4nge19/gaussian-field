@@ -16,10 +16,13 @@ for `f ∘ proj_i` and Schwartz decay of each factor, using the distribution of
 
 `productHermite_schwartz_dense` is a standard density result (Reed-Simon V.13).
 -/
+module
 
-import SchwartzNuclear.HermiteNuclear
-import SchwartzNuclear.SchwartzTensorProduct
-import Mathlib.Analysis.Calculus.ContDiff.Bounds
+public import SchwartzNuclear.HermiteNuclear
+public import SchwartzNuclear.SchwartzTensorProduct
+public import Mathlib.Analysis.Calculus.ContDiff.Bounds
+
+@[expose] public section
 
 noncomputable section
 

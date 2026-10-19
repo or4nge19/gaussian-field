@@ -41,8 +41,11 @@ means t ∈ (0, L/2) ⊂ ℝ/Lℤ and wraparound must be handled.
 - Osterwalder-Schrader (1973), Axiom (A3)
 - Glimm-Jaffe, *Quantum Physics*, §6.1
 -/
+module
 
-import Cylinder.Symmetry
+public import Cylinder.Symmetry
+
+@[expose] public section
 
 noncomputable section
 

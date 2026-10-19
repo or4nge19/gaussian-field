@@ -38,9 +38,12 @@ Reflection `(Θf)(x) = f(-x)` preserves cosines and negates sines:
 - Grafakos, *Classical Fourier Analysis*, §3.1
 - Katznelson, *An Introduction to Harmonic Analysis*, Ch. I
 -/
+module
 
-import SmoothCircle.Eigenvalues
-import Torus.Symmetry
+public import SmoothCircle.Eigenvalues
+public import Torus.Symmetry
+
+@[expose] public section
 
 noncomputable section
 

@@ -25,12 +25,15 @@ On the finite torus with periodic BC, it has eigenvalues:
 
 The mass operator `-Δ_a + m²` is positive definite when `m > 0`.
 -/
+module
 
-import Lattice.Sites
-import Lattice.FiniteField
-import Lattice.RapidDecayLattice
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.Basic
-import Mathlib.Topology.Algebra.Module.Basic
+public import Lattice.Sites
+public import Lattice.FiniteField
+public import Lattice.RapidDecayLattice
+public import Mathlib.Analysis.SpecialFunctions.Trigonometric.Basic
+public import Mathlib.Topology.Algebra.Module.Basic
+
+@[expose] public section
 
 noncomputable section
 

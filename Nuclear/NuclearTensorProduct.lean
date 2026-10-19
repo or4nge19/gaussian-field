@@ -26,14 +26,17 @@ The tensor product s(ℕ) ⊗̂ s(ℕ) ≅ s(ℕ²) ≅ s(ℕ) via Cantor pairin
 - Dynin, Mityagin, "Criterion for nuclearity in terms of approximative dimension"
 - Gel'fand-Vilenkin, "Generalized Functions" Vol. 4
 -/
+module
 
-import Nuclear.DyninMityagin
-import Nuclear.NuclearSpace
-import Mathlib.Analysis.LocallyConvex.WithSeminorms
-import Mathlib.Analysis.PSeries
-import Mathlib.Topology.Algebra.InfiniteSum.Basic
-import Mathlib.Topology.Algebra.InfiniteSum.Order
-import Mathlib.Topology.Algebra.InfiniteSum.Ring
+public import Nuclear.DyninMityagin
+public import Nuclear.NuclearSpace
+public import Mathlib.Analysis.LocallyConvex.WithSeminorms
+public import Mathlib.Analysis.PSeries
+public import Mathlib.Topology.Algebra.InfiniteSum.Basic
+public import Mathlib.Topology.Algebra.InfiniteSum.Order
+public import Mathlib.Topology.Algebra.InfiniteSum.Ring
+
+@[expose] public section
 
 noncomputable section
 

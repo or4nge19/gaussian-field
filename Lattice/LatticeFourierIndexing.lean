@@ -1,4 +1,8 @@
-import Lattice.CirculantDFT2d
+module
+
+public import Lattice.CirculantDFT2d
+
+@[expose] public section
 
 noncomputable section
 

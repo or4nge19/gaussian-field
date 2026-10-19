@@ -98,10 +98,13 @@ plus the OU↔HO similarity-transform bridge in the docstring above.
   eigenvalue equation with eigenvalue `2n + 1`, the building block for
   the multi-D version stated below.
 -/
+module
 
-import SchwartzNuclear.HermiteTensorProduct
-import Mathlib.Data.Finset.Basic
-import GeneralResults.SeparationOfVariables
+public import SchwartzNuclear.HermiteTensorProduct
+public import Mathlib.Data.Finset.Basic
+public import GeneralResults.SeparationOfVariables
+
+@[expose] public section
 
 noncomputable section
 

@@ -49,10 +49,13 @@ is proved in `GaussianField/CramerWold.lean` via `charFunDual` injectivity.
 - `gaussian_measure_unique_of_covariance`: The main theorem. Pullback from `ℝ^ℕ`
   uses `instMeasurableSpaceConfiguration_eq_comap`.
 -/
+module
 
-import GaussianField.ConfigurationEmbedding
-import GaussianField.CramerWold
-import Mathlib.Probability.Distributions.Gaussian.Real
+public import GaussianField.ConfigurationEmbedding
+public import GaussianField.CramerWold
+public import Mathlib.Probability.Distributions.Gaussian.Real
+
+@[expose] public section
 
 noncomputable section
 

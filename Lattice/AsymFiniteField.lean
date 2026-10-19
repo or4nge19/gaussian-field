@@ -3,7 +3,9 @@ Copyright (c) 2026 Michael R. Douglas. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Michael R. Douglas
 -/
-import Lattice.AsymCovariance
+module
+
+public import Lattice.AsymCovariance
 
 /-!
 # `DyninMityaginSpace` instance for the asymmetric lattice field
@@ -16,6 +18,8 @@ it, the asym Gaussian field measure cannot be formed.
 
 (Previously declared locally in `pphi2`; moved here as it is about a GaussianField type.)
 -/
+
+@[expose] public section
 
 open MeasureTheory
 open scoped BigOperators

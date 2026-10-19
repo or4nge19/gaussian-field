@@ -34,12 +34,15 @@ only through the Green's function. This ensures:
 - Glimm-Jaffe, *Quantum Physics*, §6.1
 - Simon, *The P(φ)₂ Euclidean QFT*, Ch. I
 -/
+module
 
-import Nuclear.NuclearTensorProduct
-import Mathlib.Analysis.Normed.Group.Tannery
-import Mathlib.Analysis.Normed.Group.FunctionSeries
-import Mathlib.Analysis.LocallyConvex.SeparatingDual
-import Mathlib.Analysis.Normed.Ring.InfiniteSum
+public import Nuclear.NuclearTensorProduct
+public import Mathlib.Analysis.Normed.Group.Tannery
+public import Mathlib.Analysis.Normed.Group.FunctionSeries
+public import Mathlib.Analysis.LocallyConvex.SeparatingDual
+public import Mathlib.Analysis.Normed.Ring.InfiniteSum
+
+@[expose] public section
 
 noncomputable section
 

@@ -40,8 +40,11 @@ Then:
 - Simon, *The P(φ)₂ Euclidean QFT*, §I.3
 - Glimm-Jaffe, *Quantum Physics*, §8.6
 -/
+module
 
-import SchwartzNuclear.HermiteWick
+public import SchwartzNuclear.HermiteWick
+
+@[expose] public section
 
 noncomputable section
 

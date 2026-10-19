@@ -35,14 +35,17 @@ intermediate axioms and `tendsto_tsum_of_dominated_convergence` (Tannery):
 - Glimm-Jaffe, *Quantum Physics*, §6.1
 - Simon, *The P(φ)₂ Euclidean QFT*, Ch. I
 -/
+module
 
-import Lattice.Covariance
-import Torus.Evaluation
-import HeatKernel.Bilinear
-import SmoothCircle.Eigenvalues
-import Lattice.HeatKernelConvergence1d
-import Lattice.CirculantDFT
-import Lattice.CirculantDFT2d
+public import Lattice.Covariance
+public import Torus.Evaluation
+public import HeatKernel.Bilinear
+public import SmoothCircle.Eigenvalues
+public import Lattice.HeatKernelConvergence1d
+public import Lattice.CirculantDFT
+public import Lattice.CirculantDFT2d
+
+@[expose] public section
 
 noncomputable section
 

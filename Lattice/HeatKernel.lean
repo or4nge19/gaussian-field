@@ -33,9 +33,12 @@ ensuring tensor product factorization: `K_t^{2D} = K_t^{1D} ⊗ K_t^{1D}`.
 - Glimm-Jaffe, *Quantum Physics*, §6.1, §19
 - Simon, *The P(φ)₂ Euclidean QFT*, Ch. I
 -/
+module
 
-import Lattice.SpectralCovariance
-import Mathlib.Analysis.Normed.Algebra.MatrixExponential
+public import Lattice.SpectralCovariance
+public import Mathlib.Analysis.Normed.Algebra.MatrixExponential
+
+@[expose] public section
 
 noncomputable section
 

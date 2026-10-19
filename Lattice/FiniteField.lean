@@ -14,13 +14,16 @@ with a natural DyninMityaginSpace instance via delta-function basis.
 - `DyninMityaginSpace` instance — finite-dimensional (delta basis)
 - `HasPointEval` instance — evaluation at lattice sites
 -/
+module
 
-import Lattice.Sites
-import Nuclear.DyninMityagin
-import Nuclear.NuclearTensorProduct
-import Nuclear.PointEval
-import Mathlib.Analysis.LocallyConvex.WithSeminorms
-import Mathlib.LinearAlgebra.Dimension.Finrank
+public import Lattice.Sites
+public import Nuclear.DyninMityagin
+public import Nuclear.NuclearTensorProduct
+public import Nuclear.PointEval
+public import Mathlib.Analysis.LocallyConvex.WithSeminorms
+public import Mathlib.LinearAlgebra.Dimension.Finrank
+
+@[expose] public section
 
 noncomputable section
 

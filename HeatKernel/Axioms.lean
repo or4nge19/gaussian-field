@@ -21,9 +21,12 @@ For bounded σ_m, set φ_m = σ_m • coeff_m. Then
 for any k (by DyninMityaginSpace.coeff_decay). Choosing k = 2 gives the
 required (1+m)^{-2} decay for the embedding theorem.
 -/
+module
 
-import GaussianField.Construction
-import SmoothCircle.Basic
+public import GaussianField.Construction
+public import SmoothCircle.Basic
+
+@[expose] public section
 
 noncomputable section
 

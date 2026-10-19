@@ -25,9 +25,12 @@ double factorials.
 - Simon, P(φ)₂, Theorem I.17
 - Glimm-Jaffe, Quantum Physics, Ch. 8
 -/
+module
 
-import GaussianField.Hypercontractive
-import Mathlib.Data.Nat.Factorial.DoubleFactorial
+public import GaussianField.Hypercontractive
+public import Mathlib.Data.Nat.Factorial.DoubleFactorial
+
+@[expose] public section
 
 noncomputable section
 

@@ -28,12 +28,15 @@ uniformly on `[0, L]` for any `n` and any `N > 1`. This gives:
 - Stein-Weiss, *Introduction to Fourier Analysis on Euclidean Spaces*, Ch. VII
 - Grafakos, *Classical Fourier Analysis*, §3.1.2
 -/
+module
 
-import SmoothCircle.Nuclear
-import SchwartzNuclear.HermiteNuclear
-import Torus.Symmetry
-import Cylinder.Symmetry
-import Mathlib.Topology.Algebra.InfiniteSum.TsumUniformlyOn
+public import SmoothCircle.Nuclear
+public import SchwartzNuclear.HermiteNuclear
+public import Torus.Symmetry
+public import Cylinder.Symmetry
+public import Mathlib.Topology.Algebra.InfiniteSum.TsumUniformlyOn
+
+@[expose] public section
 
 noncomputable section
 

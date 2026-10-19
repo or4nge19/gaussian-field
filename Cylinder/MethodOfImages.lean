@@ -52,12 +52,15 @@ geometric series converges uniformly for Lt ≥ 1.
 - Simon, *The P(φ)₂ Euclidean QFT*, Ch. I, Ch. VIII
 - Osterwalder-Schrader (1973), §3
 -/
+module
 
-import Cylinder.GreenFunction
-import Cylinder.Basic
-import Torus.AsymmetricTorus
-import Nuclear.GeneralMapCLM
-import SchwartzNuclear.Periodization
+public import Cylinder.GreenFunction
+public import Cylinder.Basic
+public import Torus.AsymmetricTorus
+public import Nuclear.GeneralMapCLM
+public import SchwartzNuclear.Periodization
+
+@[expose] public section
 
 noncomputable section
 

@@ -33,11 +33,14 @@ For the resolvent: `‖D^j σ_ω‖_∞ = ω^{-1-j} ‖D^j g‖_∞ ≤ mass^{-1
 - Stein, *Singular Integrals and Differentiability Properties of Functions*, Ch. VI
 - Hörmander, *The Analysis of Linear PDOs*, Vol. II, §18.1
 -/
+module
 
-import Cylinder.FourierMultiplier
-import SchwartzFourier.LaplaceCLM
-import SchwartzFourier.ResolventUniformBound
-import Mathlib.Analysis.Fourier.Inversion
+public import Cylinder.FourierMultiplier
+public import SchwartzFourier.LaplaceCLM
+public import SchwartzFourier.ResolventUniformBound
+public import Mathlib.Analysis.Fourier.Inversion
+
+@[expose] public section
 
 noncomputable section
 

@@ -10,10 +10,13 @@ on `S(ℝ^{n(d+1)}, ℂ)`, agreeing on product tensors.
 
 This is the theorem that replaces the axiom in OSreconstruction.
 -/
+module
 
-import GeneralResults.SchwartzProducts
-import SchwartzNuclear.NuclearExtension
-import Mathlib.Analysis.Complex.Basic
+public import GeneralResults.SchwartzProducts
+public import SchwartzNuclear.NuclearExtension
+public import Mathlib.Analysis.Complex.Basic
+
+@[expose] public section
 
 noncomputable section
 

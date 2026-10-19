@@ -37,9 +37,12 @@ functional `charFun T f` (proved in `GaussianField.Construction`):
 - Simon, "The P(φ)₂ Euclidean (Quantum) Field Theory", §I.3
 - Glimm-Jaffe, "Quantum Physics", §6.1 (Wick ordering)
 -/
+module
 
-import GaussianField.Properties
-import Mathlib.Data.Nat.Factorial.DoubleFactorial
+public import GaussianField.Properties
+public import Mathlib.Data.Nat.Factorial.DoubleFactorial
+
+@[expose] public section
 
 noncomputable section
 

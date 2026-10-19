@@ -28,14 +28,17 @@ to be exported:
 - `deriv_hermiteFunction` (derivative identity)
 - `hermiteFunction_contDiff` (smoothness)
 -/
+module
 
-import Mathlib.Analysis.InnerProductSpace.Basic
-import Mathlib.Analysis.Distribution.SchwartzSpace.Deriv
-import Mathlib.MeasureTheory.Integral.Bochner.ContinuousLinearMap
-import Mathlib.Analysis.PSeries
-import Mathlib.Topology.Algebra.InfiniteSum.Module
-import Mathlib.Analysis.Distribution.TemperateGrowth
-import SchwartzNuclear.HermiteFunctions
+public import Mathlib.Analysis.InnerProductSpace.Basic
+public import Mathlib.Analysis.Distribution.SchwartzSpace.Deriv
+public import Mathlib.MeasureTheory.Integral.Bochner.ContinuousLinearMap
+public import Mathlib.Analysis.PSeries
+public import Mathlib.Topology.Algebra.InfiniteSum.Module
+public import Mathlib.Analysis.Distribution.TemperateGrowth
+public import SchwartzNuclear.HermiteFunctions
+
+@[expose] public section
 
 open MeasureTheory Real SchwartzMap
 open scoped BigOperators

@@ -3,9 +3,11 @@ Copyright (c) 2026 Michael R. Douglas. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Michael R. Douglas
 -/
-import Lattice.AsymCovariance
-import Lattice.AsymFiniteField
-import GaussianField.Density
+module
+
+public import Lattice.AsymCovariance
+public import Lattice.AsymFiniteField
+public import GaussianField.Density
 
 /-!
 # Asymmetric-lattice Gaussian density bridge
@@ -27,6 +29,8 @@ precision is `a²·Q`).
 This is the GaussianField-side input to the Layer-B2 measure↔operator bridge in `pphi2`
 (crux-1); see `docs/generic-density-bridge-plan.md` for the eventual generic consolidation.
 -/
+
+@[expose] public section
 
 open MeasureTheory
 open scoped BigOperators

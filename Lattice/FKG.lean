@@ -83,12 +83,15 @@ massOperator_offDiag_nonpos → quadraticForm_submodular → gaussianDensity_fkg
 - Glimm-Jaffe, "Quantum Physics", §19 (Correlation inequalities)
 - Simon, "The P(φ)₂ Euclidean (Quantum) Field Theory", §IV
 -/
+module
 
-import Lattice.Covariance
-import GaussianField.Density
-import Mathlib.MeasureTheory.Integral.Bochner.Basic
-import Mathlib.MeasureTheory.Integral.Prod
-import Mathlib.MeasureTheory.Constructions.Pi
+public import Lattice.Covariance
+public import GaussianField.Density
+public import Mathlib.MeasureTheory.Integral.Bochner.Basic
+public import Mathlib.MeasureTheory.Integral.Prod
+public import Mathlib.MeasureTheory.Constructions.Pi
+
+@[expose] public section
 
 noncomputable section
 

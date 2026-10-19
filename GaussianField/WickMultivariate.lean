@@ -71,11 +71,14 @@ specializations (e.g. interaction polynomial $V_a$ in the chaos)
 live downstream in pphi2's `PolynomialChaosBridge.lean`; this file
 provides only the generic Gaussian-Hilbert-space identifications.
 -/
+module
 
-import GaussianField.StandardGaussianBridge
-import GaussianField.Wick
-import SchwartzNuclear.HermiteWick
-import SchwartzNuclear.HermiteFunctions
+public import GaussianField.StandardGaussianBridge
+public import GaussianField.Wick
+public import SchwartzNuclear.HermiteWick
+public import SchwartzNuclear.HermiteFunctions
+
+@[expose] public section
 
 noncomputable section
 

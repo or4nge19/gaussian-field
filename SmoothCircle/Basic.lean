@@ -22,14 +22,17 @@ with topology given by the family of Sobolev sup-norms
 `{1/√L, √(2/L)·cos(2πnx/L), √(2/L)·sin(2πnx/L)}` provides a Schauder
 basis with polynomial growth and rapid coefficient decay.
 -/
+module
 
-import Nuclear.NuclearTensorProduct
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.Deriv
-import Mathlib.Analysis.SpecialFunctions.Integrals.Basic
-import Mathlib.Analysis.Calculus.IteratedDeriv.Lemmas
-import Mathlib.Topology.Order.Compact
-import Mathlib.MeasureTheory.Integral.Bochner.Set
-import Mathlib.MeasureTheory.Measure.Lebesgue.Basic
+public import Nuclear.NuclearTensorProduct
+public import Mathlib.Analysis.SpecialFunctions.Trigonometric.Deriv
+public import Mathlib.Analysis.SpecialFunctions.Integrals.Basic
+public import Mathlib.Analysis.Calculus.IteratedDeriv.Lemmas
+public import Mathlib.Topology.Order.Compact
+public import Mathlib.MeasureTheory.Integral.Bochner.Set
+public import Mathlib.MeasureTheory.Measure.Lebesgue.Basic
+
+@[expose] public section
 
 noncomputable section
 

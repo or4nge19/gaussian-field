@@ -24,11 +24,14 @@ uniform second moment bounds is tight.
 - `coordBox_isCompact` — compactness of coordinate boxes as closed subsets
   of the continuous image of a compact product box (Tychonoff + DM reconstruction)
 -/
+module
 
-import GaussianField.ConfigurationEmbedding
-import Mathlib.Analysis.Normed.Group.Tannery
-import Mathlib.Analysis.LocallyConvex.Barrelled
-import Mathlib.Topology.Baire.CompleteMetrizable
+public import GaussianField.ConfigurationEmbedding
+public import Mathlib.Analysis.Normed.Group.Tannery
+public import Mathlib.Analysis.LocallyConvex.Barrelled
+public import Mathlib.Topology.Baire.CompleteMetrizable
+
+@[expose] public section
 
 noncomputable section
 

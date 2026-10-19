@@ -29,15 +29,18 @@ one-dimensional case rather than via an `ℤ^d ≃ ℕ` reindexing.
 
 - Dynin-Mityagin, via the general transfer constructor `ofRapidDecayEquiv`
 -/
+module
 
-import Lattice.Sites
-import Nuclear.NuclearTensorProduct
-import Nuclear.PointEval
-import Mathlib.Analysis.LocallyConvex.WithSeminorms
-import Mathlib.Topology.Algebra.InfiniteSum.Basic
-import Mathlib.Topology.Algebra.InfiniteSum.Order
-import Mathlib.Basic.Denumerable
-import Mathlib.Logic.Equiv.Fin.Basic
+public import Lattice.Sites
+public import Nuclear.NuclearTensorProduct
+public import Nuclear.PointEval
+public import Mathlib.Analysis.LocallyConvex.WithSeminorms
+public import Mathlib.Topology.Algebra.InfiniteSum.Basic
+public import Mathlib.Topology.Algebra.InfiniteSum.Order
+public import Mathlib.Basic.Denumerable
+public import Mathlib.Logic.Equiv.Fin.Basic
+
+@[expose] public section
 
 noncomputable section
 

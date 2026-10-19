@@ -31,11 +31,14 @@ For the explicit seminorm bound, `‖h‖_{L¹} ≤ C · p_{k,0}(h)` for k ≥ 2
 
 - Reed-Simon II, §IX.3 (Schwartz space properties)
 -/
+module
 
-import Mathlib.Analysis.Distribution.SchwartzSpace.Basic
-import Mathlib.MeasureTheory.Measure.Haar.OfBasis
-import Mathlib.MeasureTheory.Integral.Bochner.Set
-import Mathlib.Analysis.SpecialFunctions.Exp
+public import Mathlib.Analysis.Distribution.SchwartzSpace.Basic
+public import Mathlib.MeasureTheory.Measure.Haar.OfBasis
+public import Mathlib.MeasureTheory.Integral.Bochner.Set
+public import Mathlib.Analysis.SpecialFunctions.Exp
+
+@[expose] public section
 
 noncomputable section
 

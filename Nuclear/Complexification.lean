@@ -11,10 +11,13 @@ complex scalar action (a + bi)(f + ig) = (af - bg) + i(ag + bf).
 We represent this as a structure with `re` and `im` fields (rather than
 `E × E`) to avoid typeclass diamonds with `Prod.instModule`.
 -/
+module
 
-import Mathlib.Analysis.Complex.Basic
-import Mathlib.Analysis.Complex.OperatorNorm
-import Mathlib.Analysis.Distribution.SchwartzSpace.Basic
+public import Mathlib.Analysis.Complex.Basic
+public import Mathlib.Analysis.Complex.OperatorNorm
+public import Mathlib.Analysis.Distribution.SchwartzSpace.Basic
+
+@[expose] public section
 
 namespace GaussianField
 

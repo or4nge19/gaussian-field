@@ -24,8 +24,11 @@ full 1D lattice-to-continuum convergence.
 - Davis, *Circulant Matrices*, Ch. 3
 - Katznelson, *Harmonic Analysis*, §I.2
 -/
+module
 
-import Lattice.HeatKernelConvergence1d
+public import Lattice.HeatKernelConvergence1d
+
+@[expose] public section
 
 noncomputable section
 

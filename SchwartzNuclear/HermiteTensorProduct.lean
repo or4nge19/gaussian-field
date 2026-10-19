@@ -26,12 +26,15 @@ the continuous linear equivalence.
 - Gel'fand-Vilenkin, "Generalized Functions" Vol. 4, Ch. 3-4
 - Thangavelu, "Lectures on Hermite and Laguerre Expansions", Ch. 1
 -/
+module
 
-import SchwartzNuclear.Basis1D
-import Nuclear.NuclearTensorProduct
-import SchwartzNuclear.SchwartzSlicing
-import Mathlib.Algebra.Order.Chebyshev
-import Mathlib.MeasureTheory.Integral.Pi
+public import SchwartzNuclear.Basis1D
+public import Nuclear.NuclearTensorProduct
+public import SchwartzNuclear.SchwartzSlicing
+public import Mathlib.Algebra.Order.Chebyshev
+public import Mathlib.MeasureTheory.Integral.Pi
+
+@[expose] public section
 
 noncomputable section
 

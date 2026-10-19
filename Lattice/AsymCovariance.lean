@@ -27,14 +27,17 @@ metric-inconsistent `N×N` + geometric-mean-spacing construction.
 
 Implementation plan: pphi2 `docs/cylinder-isotropic-lattice-implementation.md`.
 -/
+module
 
-import Lattice.Covariance
-import Lattice.Convergence
-import Torus.AsymmetricTorus
-import HeatKernel.Bilinear
-import Mathlib.Analysis.Matrix.PosDef
-import Mathlib.Analysis.Matrix.Spectrum
-import Mathlib.Analysis.InnerProductSpace.PiL2
+public import Lattice.Covariance
+public import Lattice.Convergence
+public import Torus.AsymmetricTorus
+public import HeatKernel.Bilinear
+public import Mathlib.Analysis.Matrix.PosDef
+public import Mathlib.Analysis.Matrix.Spectrum
+public import Mathlib.Analysis.InnerProductSpace.PiL2
+
+@[expose] public section
 
 noncomputable section
 

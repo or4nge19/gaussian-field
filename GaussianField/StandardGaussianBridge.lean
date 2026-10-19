@@ -58,14 +58,17 @@ primary tool will be the existing `latticeGaussianFieldLaw_fourier`
 in `GaussianField/Density.lean` plus characteristic-function uniqueness
 (`MeasureTheory.Measure.ext_of_charFunDual`).
 -/
+module
 
-import GaussianField.Density
-import GaussianField.IsGaussian
-import Lattice.SpectralCovariance
-import Lattice.Covariance
-import Mathlib.Probability.Distributions.Gaussian.Real
-import Mathlib.Probability.Distributions.Gaussian.HasGaussianLaw.Independence
-import Mathlib.MeasureTheory.Constructions.Pi
+public import GaussianField.Density
+public import GaussianField.IsGaussian
+public import Lattice.SpectralCovariance
+public import Lattice.Covariance
+public import Mathlib.Probability.Distributions.Gaussian.Real
+public import Mathlib.Probability.Distributions.Gaussian.HasGaussianLaw.Independence
+public import Mathlib.MeasureTheory.Constructions.Pi
+
+@[expose] public section
 
 noncomputable section
 

@@ -20,12 +20,15 @@ continuous linear equivalence with `RapidDecaySeq` via the real Fourier transfor
 4. **Backward map**: `(a_n) ↦ ∑ₙ a_n · ψ_n` maps into `SmoothMap_Circle L ℝ`
 5. **CLE**: forward ∘ backward = id (by orthogonality), backward ∘ forward = id (by uniqueness)
 -/
+module
 
-import SmoothCircle.Basic
-import Mathlib.Analysis.Calculus.SmoothSeries
-import Mathlib.MeasureTheory.Integral.DominatedConvergence
-import Mathlib.MeasureTheory.Integral.IntervalIntegral.IntegrationByParts
-import Mathlib.Analysis.Fourier.AddCircle
+public import SmoothCircle.Basic
+public import Mathlib.Analysis.Calculus.SmoothSeries
+public import Mathlib.MeasureTheory.Integral.DominatedConvergence
+public import Mathlib.MeasureTheory.Integral.IntervalIntegral.IntegrationByParts
+public import Mathlib.Analysis.Fourier.AddCircle
+
+@[expose] public section
 
 noncomputable section
 

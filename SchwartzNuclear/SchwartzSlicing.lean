@@ -29,9 +29,12 @@ constructions used in the multi-dimensional Hermite expansion proof.
 - `schwartz_slice_partial_pointwise_bound` — pointwise bound via chain rule + CLM norms
 - `schwartz_slice_partial_seminorm_bound` — seminorm bound for scalarized slices
 -/
+module
 
-import SchwartzNuclear.ParametricCalculus
-import SchwartzNuclear.SchwartzHermiteExpansion
+public import SchwartzNuclear.ParametricCalculus
+public import SchwartzNuclear.SchwartzHermiteExpansion
+
+@[expose] public section
 
 open MeasureTheory Real SchwartzMap Measure
 open scoped ContDiff

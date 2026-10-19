@@ -31,11 +31,14 @@ The resulting sequence is in ℓ² because:
 - Glimm-Jaffe, *Quantum Physics*, §6.1, §19.1
 - Simon, *The P(φ)₂ Euclidean QFT*, Ch. I
 -/
+module
 
-import Cylinder.FreeHeatSemigroup
-import Cylinder.PositiveTime
-import GaussianField.Construction
-import SchwartzFourier.ResolventUniformBound
+public import Cylinder.FreeHeatSemigroup
+public import Cylinder.PositiveTime
+public import GaussianField.Construction
+public import SchwartzFourier.ResolventUniformBound
+
+@[expose] public section
 
 noncomputable section
 

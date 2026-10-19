@@ -31,8 +31,11 @@ that are NOT monotone in ω. The factorization avoids this issue.
 - Stein, *Singular Integrals*, Ch. VI (Fourier multiplier seminorm bounds)
 - Glimm-Jaffe, *Quantum Physics*, §6.1
 -/
+module
 
-import Cylinder.FourierMultiplier
+public import Cylinder.FourierMultiplier
+
+@[expose] public section
 
 noncomputable section
 

@@ -24,8 +24,11 @@ tensor product, preserving composition and identity.
 
 - Trèves, *Topological Vector Spaces, Distributions, and Kernels*, Ch. 43, 50
 -/
+module
 
-import Nuclear.NuclearTensorProduct
+public import Nuclear.NuclearTensorProduct
+
+@[expose] public section
 
 noncomputable section
 

@@ -26,12 +26,15 @@ As N → ∞, `sinc(πk/N) → 1`, so `λ_k → (2πk/L)²` = continuum eigenval
 - Glimm-Jaffe, *Quantum Physics*, §6.1
 - Simon, *The P(φ)₂ Euclidean QFT*, Ch. I
 -/
+module
 
-import Lattice.HeatKernel
-import SmoothCircle.Restriction
-import SmoothCircle.Eigenvalues
-import SmoothCircle.Nuclear
-import HeatKernel.Bilinear
+public import Lattice.HeatKernel
+public import SmoothCircle.Restriction
+public import SmoothCircle.Eigenvalues
+public import SmoothCircle.Nuclear
+public import HeatKernel.Bilinear
+
+@[expose] public section
 
 noncomputable section
 

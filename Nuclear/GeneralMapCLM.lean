@@ -28,9 +28,12 @@ level: the input and output NTP spaces can be different.
 
 - Treves, *Topological Vector Spaces*, Ch. 50 (nuclear spaces)
 -/
+module
 
-import Nuclear.NuclearTensorProduct
-import Nuclear.TensorProductFunctorAxioms
+public import Nuclear.NuclearTensorProduct
+public import Nuclear.TensorProductFunctorAxioms
+
+@[expose] public section
 
 noncomputable section
 
