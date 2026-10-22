@@ -10,3 +10,4 @@ module
 
 public import SchwartzFourier.LaplaceCLM
 public import SchwartzFourier.ResolventUniformBound
+public import SchwartzFourier.MultiplierBound
