@@ -2591,6 +2591,14 @@ private lemma schwartz_hermite_completeness_nd (d' : ℕ)
     exact sub_eq_zero.mp h_sub
   rwa [h_eq] at h_sum
 
+/-- **Unconditional Hermite expansion in the Schwartz topology**, indexed by multi-indices:
+`f = ∑_α ⟨f, h_α⟩ h_α` as an unconditional sum in `𝓢(ℝ^(d'+1))`. This is
+`schwartz_hermite_completeness_nd` transported along `multiIndexEquiv d'`. -/
+theorem schwartz_hermite_hasSum_multiIndex (d' : ℕ)
+    (f : SchwartzMap (EuclideanSpace ℝ (Fin (d' + 1))) ℝ) :
+    HasSum (fun α => hermiteCoeffNd (d' + 1) α f • schwartzHermiteBasisNd (d' + 1) α) f :=
+  ((multiIndexEquiv d').symm.hasSum_iff).mp (schwartz_hermite_completeness_nd d' f)
+
 /-- The d-dimensional Hermite topological isomorphism (for d = d' + 1 ≥ 1).
 The `d' + 1` signature avoids the d=0 branch entirely —
 `EuclideanSpace ℝ (Fin 0)` is topologically degenerate and never reached

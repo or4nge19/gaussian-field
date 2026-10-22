@@ -24,3 +24,4 @@ public import SchwartzNuclear.SchwartzHermiteExpansion
 public import SchwartzNuclear.Basis1D
 public import SchwartzNuclear.SchwartzSlicing
 public import SchwartzNuclear.HermiteNuclear
+public import SchwartzNuclear.HermiteGalerkin
