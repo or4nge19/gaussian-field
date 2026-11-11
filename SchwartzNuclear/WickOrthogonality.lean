@@ -11,7 +11,9 @@ orthogonality property that makes Wick ordering useful in QFT.
 ## Main results
 
 - `wickMonomial_deriv` — d/dx :x^n:_c = n · :x^{n-1}:_c
-- `wickMonomial_mean_zero` — ∫ :x^n:_c dN(0,c) = 0 for n ≥ 1
+- `stein_lemma` — E[x f(x)] = c E[f'(x)] under `gaussianReal 0 c.toNNReal`, for `f`
+  differentiable with `f` and `f'` of polynomial growth
+- `wickMonomial_mean_zero` — ∫ :x^n:_c dN(0,c) = 0 for n ≥ 1, `0 ≤ c`
 
 ## Existing infrastructure
 
@@ -43,12 +45,16 @@ Then:
 module
 
 public import SchwartzNuclear.HermiteWick
+public import Mathlib.Analysis.Calculus.FDeriv.Measurable
+public import Mathlib.MeasureTheory.Integral.IntegralEqImproper
+public import Mathlib.Probability.Distributions.Gaussian.Real
 
 @[expose] public section
 
 noncomputable section
 
 open Real Polynomial MeasureTheory
+open scoped NNReal ENNReal
 
 /-! ## Helper: Wick polynomial representation
 
@@ -132,121 +138,54 @@ private theorem wickMonomial_hasDerivAt_all (c : ℝ) (n : ℕ) :
       | zero => simp [wickMonomial]; ring
       | succ j => rw [wickMonomial_succ_succ j c x]; push_cast; ring
 
-/-- Even moments `E[x^{2k}]` are integrable and positive under a probability measure
-satisfying Stein's identity with variance `c > 0`. By induction: Stein applied to
-`f(x) = x^{2k+1}` gives `E[x^{2k+2}] = c(2k+1)E[x^{2k}]`, and the RHS is positive
-by `c > 0` and induction, forcing the LHS to be finite and positive. -/
-private theorem stein_even_moment_integrable (c : ℝ) (hc : 0 < c)
-    (μ : Measure ℝ) [IsProbabilityMeasure μ]
-    (hμ_stein : ∀ f : ℝ → ℝ, Differentiable ℝ f →
-      (∃ C n, ∀ x, |f x| ≤ C * (1 + |x|) ^ n) →
-      ∫ x, x * f x ∂μ = c * ∫ x, deriv f x ∂μ)
-    (k : ℕ) : Integrable (fun x : ℝ => x ^ (2 * k)) μ ∧
-              0 < ∫ x : ℝ, x ^ (2 * k) ∂μ := by
-  induction k with
-  | zero =>
-    simp only [mul_zero, pow_zero]
-    exact ⟨integrable_const 1, by simp⟩
-  | succ m ih =>
-    obtain ⟨him, hpos⟩ := ih
-    -- Apply Stein to f(x) = x^(2m+1)
-    have hstein := hμ_stein (fun x => x ^ (2 * m + 1)) (differentiable_pow _)
-      ⟨1, 2 * m + 1, fun x => by
-        rw [abs_pow, one_mul]
-        exact pow_le_pow_left₀ (abs_nonneg x) (le_add_of_nonneg_left one_pos.le) _⟩
-    -- Rewrite LHS: ∫ x * x^(2m+1) = ∫ x^(2(m+1))
-    have hlhs : ∫ x : ℝ, x * x ^ (2 * m + 1) ∂μ = ∫ x : ℝ, x ^ (2 * (m + 1)) ∂μ := by
-      congr 1; ext x; ring
-    -- Rewrite deriv: d/dx x^(2m+1) = (2m+1) x^(2m)
-    have hderiv_eq : (fun x : ℝ => deriv (fun y => y ^ (2 * m + 1)) x) =
-        (fun x => (2 * (m : ℝ) + 1) * x ^ (2 * m)) := by ext x; simp
-    rw [hlhs, hderiv_eq, integral_const_mul] at hstein
-    -- RHS is positive: c > 0, (2m+1) > 0, E[x^{2m}] > 0
-    have hrhs_pos : 0 < c * ((2 * (m : ℝ) + 1) * ∫ x : ℝ, x ^ (2 * m) ∂μ) := by
-      apply mul_pos hc; apply mul_pos; positivity; exact hpos
-    rw [← hstein] at hrhs_pos
-    -- Since ∫ x^(2(m+1)) = RHS > 0, the function must be integrable
-    -- (otherwise the Bochner integral would be 0)
-    exact ⟨by_contra fun hni => absurd (integral_undef hni) (ne_of_gt hrhs_pos), hrhs_pos⟩
+/-! ## Gaussian moments and integrability of Wick monomials -/
 
-/-- For all `x : ℝ` and `n : ℕ`: `|x|^n ≤ 1 + x^{2n}`.
-When `|x| ≤ 1`: `|x|^n ≤ 1`. When `|x| > 1`: `|x|^n ≤ |x|^{2n} = x^{2n}`. -/
-private lemma abs_pow_le_one_add_even_pow (n : ℕ) (x : ℝ) :
-    |x| ^ n ≤ 1 + x ^ (2 * n) := by
-  by_cases h : |x| ≤ 1
-  · calc |x| ^ n ≤ 1 ^ n := pow_le_pow_left₀ (abs_nonneg x) h n
-      _ = 1 := one_pow n
-      _ ≤ 1 + x ^ (2 * n) := le_add_of_nonneg_right (Even.pow_nonneg ⟨n, by ring⟩ x)
-  · push Not at h
-    calc |x| ^ n ≤ |x| ^ (2 * n) := pow_le_pow_right₀ h.le (by omega)
-      _ = x ^ (2 * n) := by rw [← abs_pow]; exact abs_of_nonneg (Even.pow_nonneg ⟨n, by ring⟩ x)
-      _ ≤ 1 + x ^ (2 * n) := le_add_of_nonneg_left one_pos.le
+namespace SteinLemma
 
-/-- `(1 + |x|)^d` is integrable under a Stein measure. By binomial expansion
-`(1 + |x|)^d = ∑ C(d,k) |x|^k`, each `|x|^k` is integrable since
-`|x|^k ≤ 1 + x^{2k}` and `x^{2k}` is integrable by `stein_even_moment_integrable`. -/
-private theorem oneplusabs_pow_integrable (c : ℝ) (hc : 0 < c)
-    (μ : Measure ℝ) [IsProbabilityMeasure μ]
-    (hμ_stein : ∀ f : ℝ → ℝ, Differentiable ℝ f →
-      (∃ C n, ∀ x, |f x| ≤ C * (1 + |x|) ^ n) →
-      ∫ x, x * f x ∂μ = c * ∫ x, deriv f x ∂μ)
-    (d : ℕ) : Integrable (fun x : ℝ => (1 + |x|) ^ d) μ := by
-  -- Each |x|^n is integrable: bounded by 1 + x^(2n), both integrable
-  have habs : ∀ n, Integrable (fun x : ℝ => |x| ^ n) μ := fun n =>
-    Integrable.mono' ((integrable_const (1 : ℝ)).add (stein_even_moment_integrable c hc μ hμ_stein n).1)
-      ((continuous_abs.pow n).aestronglyMeasurable)
-      (ae_of_all _ fun x => by
-        rw [Real.norm_eq_abs, abs_of_nonneg (pow_nonneg (abs_nonneg x) n)]
-        exact abs_pow_le_one_add_even_pow n x)
-  -- Expand (1 + |x|)^d by binomial theorem, apply integrable_finset_sum
-  have hfun : (fun x : ℝ => (1 + |x|) ^ d) =
-      (fun x => ∑ k ∈ Finset.range (d + 1),
-        (1 : ℝ) ^ k * |x| ^ (d - k) * ↑(d.choose k)) := by
-    ext x; exact add_pow 1 |x| d
-  rw [hfun]
-  exact integrable_finsetSum _ fun k _ => by
-    simp only [one_pow, one_mul]; exact (habs (d - k)).mul_const _
+open ProbabilityTheory
 
-/-- Integrability of `wickMonomial n c` under a probability measure satisfying Stein's
-identity with variance `c > 0`. Since `wickMonomial n c` is a polynomial, it satisfies
-`|W_n(x)| ≤ C * (1 + |x|)^d` (from `wickMonomial_growth`). The bound function
-`(1 + |x|)^d` is integrable because all moments are finite under a Stein measure
-(bootstrapped from Stein's identity and `c > 0`). -/
-private theorem wickMonomial_integrable (n : ℕ) (c : ℝ) (hc : 0 < c)
-    (μ : Measure ℝ) [IsProbabilityMeasure μ]
-    (hμ_stein : ∀ f : ℝ → ℝ, Differentiable ℝ f →
-      (∃ C n, ∀ x, |f x| ≤ C * (1 + |x|) ^ n) →
-      ∫ x, x * f x ∂μ = c * ∫ x, deriv f x ∂μ) :
-    Integrable (wickMonomial n c) μ := by
-  -- Get the polynomial growth bound: |W_n(x)| ≤ C * (1 + |x|)^d
+/-- All polynomial weights `(1 + |x|) ^ n` are integrable under a real Gaussian law
+(`memLp_id_gaussianReal` and `(1 + |x|) ^ n ≤ 2 ^ (n - 1) (1 + |x| ^ n)`). -/
+theorem integrable_one_add_abs_pow_gaussianReal (μ : ℝ) (v : ℝ≥0) (n : ℕ) :
+    Integrable (fun x : ℝ => (1 + |x|) ^ n) (gaussianReal μ v) := by
+  have hn : Integrable (fun x : ℝ => ‖x‖ ^ n) (gaussianReal μ v) :=
+    (memLp_id_gaussianReal' (μ := μ) (v := v) (n : ℝ≥0∞) (by simp)).integrable_norm_pow'
+  refine (((integrable_const (1 : ℝ)).add hn).const_mul ((2 : ℝ) ^ (n - 1))).mono'
+    (by fun_prop) (ae_of_all _ fun x => ?_)
+  rw [Real.norm_of_nonneg (by positivity)]
+  have h := add_pow_le (a := (1 : ℝ)) (b := |x|) zero_le_one (abs_nonneg x) n
+  simpa [Real.norm_eq_abs] using h
+
+/-- A measurable function of polynomial growth is integrable under a real Gaussian law. -/
+theorem integrable_of_abs_le_gaussianReal {μ : ℝ} {v : ℝ≥0} {f : ℝ → ℝ}
+    (hf : AEStronglyMeasurable f (gaussianReal μ v)) {C : ℝ} {n : ℕ}
+    (hb : ∀ x, |f x| ≤ C * (1 + |x|) ^ n) : Integrable f (gaussianReal μ v) :=
+  ((integrable_one_add_abs_pow_gaussianReal μ v n).const_mul C).mono' hf
+    (ae_of_all _ fun x => by rw [Real.norm_eq_abs]; exact hb x)
+
+end SteinLemma
+
+/-- Integrability of `wickMonomial n c` under every centered real Gaussian law: it is a
+polynomial (`wickMonomial_growth`). -/
+theorem wickMonomial_integrable (n : ℕ) (c : ℝ) (v : ℝ≥0) :
+    Integrable (wickMonomial n c) (ProbabilityTheory.gaussianReal 0 v) := by
   obtain ⟨C, d, hbound⟩ := wickMonomial_growth n c
-  -- The bound function C * (1 + |x|)^d is integrable
-  have hbnd_int : Integrable (fun x => C * (1 + |x|) ^ d) μ :=
-    (oneplusabs_pow_integrable c hc μ hμ_stein d).const_mul C
-  -- wickMonomial is continuous (it's a polynomial), hence AEStronglyMeasurable
-  have hasm : AEStronglyMeasurable (wickMonomial n c) μ :=
-    (wickMonomial_differentiable n c).continuous.aestronglyMeasurable
-  -- Apply Integrable.mono': |W_n(x)| ≤ C * (1 + |x|)^d and the bound is integrable
-  exact hbnd_int.mono' hasm (ae_of_all _ fun x => by
-    rw [Real.norm_eq_abs]; exact hbound x)
+  exact SteinLemma.integrable_of_abs_le_gaussianReal
+    (wickMonomial_differentiable n c).continuous.aestronglyMeasurable hbound
 
-/-- Integrability of `x * wickMonomial n c x` under a Stein measure.
+/-- Integrability of `x * wickMonomial n c x` under every centered real Gaussian law.
 Follows from the recursion: `x * W_{n}(x) = W_{n+1}(x) + n*c*W_{n-1}(x)`. -/
-private theorem xmul_wickMonomial_integrable (n : ℕ) (c : ℝ) (hc : 0 < c)
-    (μ : Measure ℝ) [IsProbabilityMeasure μ]
-    (hμ_stein : ∀ f : ℝ → ℝ, Differentiable ℝ f →
-      (∃ C n, ∀ x, |f x| ≤ C * (1 + |x|) ^ n) →
-      ∫ x, x * f x ∂μ = c * ∫ x, deriv f x ∂μ) :
-    Integrable (fun x => x * wickMonomial n c x) μ := by
+theorem xmul_wickMonomial_integrable (n : ℕ) (c : ℝ) (v : ℝ≥0) :
+    Integrable (fun x => x * wickMonomial n c x) (ProbabilityTheory.gaussianReal 0 v) := by
   cases n with
-  | zero => simp [wickMonomial]; exact wickMonomial_integrable 1 c hc μ hμ_stein
+  | zero => simp [wickMonomial]; exact wickMonomial_integrable 1 c v
   | succ k =>
     have hfun : (fun x => x * wickMonomial (k + 1) c x) =
       (fun x => wickMonomial (k + 2) c x + (↑k + 1) * c * wickMonomial k c x) := by
       ext x; have := wickMonomial_succ_succ k c x; linarith
     rw [hfun]
-    exact (wickMonomial_integrable (k + 2) c hc μ hμ_stein).add
-      ((wickMonomial_integrable k c hc μ hμ_stein).const_mul _)
+    exact (wickMonomial_integrable (k + 2) c v).add
+      ((wickMonomial_integrable k c v).const_mul _)
 
 /-! ## Wick monomial derivative
 
@@ -266,54 +205,120 @@ theorem wickMonomial_deriv (n : ℕ) (c : ℝ) (hn : 1 ≤ n) :
 
 /-! ## Stein's lemma (Gaussian integration by parts)
 
-For X ~ N(0, c): E[X · f(X)] = c · E[f'(X)].
+For X ~ N(0, c): E[X · f(X)] = c · E[f'(X)], for `f` differentiable with `f` and `f'` of
+polynomial growth.
 
-This is the fundamental integration-by-parts formula for Gaussian measures.
-It characterizes the Gaussian distribution (Stein's method). -/
+This is the fundamental integration-by-parts formula for Gaussian measures. The proof is
+integration by parts on `ℝ` against the density `g`, using `g' = -(x/c) g`; boundary terms
+vanish because `f g`, `x f g` and `f' g` are integrable. Restaged from the one-dimensional
+`stein_lemma_gaussianReal` (SpinGlass, `Common/Mathlib/Probability/Distributions/
+GaussianIntegrationByParts.lean`; carrier `GibbsMeasure.Mathlib.Probability.Distributions.
+Gaussian.IntegrationByParts`). Growth of `f'` is assumed: with only `f` of polynomial growth,
+`f'` need not be integrable, its Bochner integral is then `0`, and the identity can fail. -/
 
-/-- **Stein's lemma**: E[x · f(x)] = c · E[f'(x)] under the Gaussian
-measure N(0,c).
+namespace SteinLemma
 
-Proof: Use ∫ x·f(x)·g(x) dx = -∫ f(x)·d/dx(x·g(x)) dx where
-g(x) = (2πc)^{-1/2} exp(-x²/(2c)) is the Gaussian density,
-and x·g(x) = -c·g'(x). Integration by parts with boundary terms
-vanishing by Gaussian decay. -/
-theorem stein_lemma (c : ℝ) (hc : 0 < c)
-    (μ : Measure ℝ) [IsProbabilityMeasure μ]
-    -- μ is the centered Gaussian of variance c
-    (hμ_stein : ∀ f : ℝ → ℝ, Differentiable ℝ f →
-      -- f and f' have at most polynomial growth
-      (∃ C n, ∀ x, |f x| ≤ C * (1 + |x|) ^ n) →
-      ∫ x, x * f x ∂μ = c * ∫ x, deriv f x ∂μ)
-    (f : ℝ → ℝ) (hf : Differentiable ℝ f)
-    (hf_growth : ∃ C n, ∀ x, |f x| ≤ C * (1 + |x|) ^ n) :
-    ∫ x, x * f x ∂μ = c * ∫ x, deriv f x ∂μ :=
-  hμ_stein f hf hf_growth
+open ProbabilityTheory
+
+/-- The Gaussian density satisfies `g' = -((x - m) / v) g`. -/
+theorem hasDerivAt_gaussianPDFReal (m : ℝ) {v : ℝ≥0} (hv : v ≠ 0) (x : ℝ) :
+    HasDerivAt (gaussianPDFReal m v) (-(x - m) / v * gaussianPDFReal m v x) x := by
+  have hv' : (v : ℝ) ≠ 0 := by exact_mod_cast hv
+  have h : HasDerivAt (fun x => -(x - m) ^ 2 / (2 * v)) (-(2 * (x - m)) / (2 * v)) x := by
+    simpa using (((hasDerivAt_id x).sub_const m).pow 2).neg.div_const (2 * (v : ℝ))
+  convert (h.exp.const_mul (√(2 * π * v))⁻¹) using 1
+  · rfl
+  · rw [gaussianPDFReal]
+    field_simp
+
+theorem integrable_gaussianPDFReal_mul {m : ℝ} {v : ℝ≥0} (hv : v ≠ 0) {g : ℝ → ℝ}
+    (hg : Integrable g (gaussianReal m v)) :
+    Integrable fun x => gaussianPDFReal m v x * g x := by
+  rw [gaussianReal_of_var_ne_zero _ hv, integrable_withDensity_iff_integrable_smul'
+    (measurable_gaussianPDF m v) (ae_of_all _ fun _ => gaussianPDF_lt_top)] at hg
+  simpa [toReal_gaussianPDF] using hg
+
+/-- Stein's identity, integrability form: if `HasDerivAt f (f' x) x` everywhere and `f`, `x f`,
+`f'` are `N(0, v)`-integrable, then `∫ x f(x) dN(0, v) = v ∫ f' dN(0, v)`. -/
+theorem integral_mul_gaussianReal_of_integrable {v : ℝ≥0} {f f' : ℝ → ℝ}
+    (hf : ∀ x, HasDerivAt f (f' x) x) (hfi : Integrable f (gaussianReal 0 v))
+    (hxf : Integrable (fun x => x * f x) (gaussianReal 0 v))
+    (hf' : Integrable f' (gaussianReal 0 v)) :
+    ∫ x, x * f x ∂gaussianReal 0 v = v * ∫ x, f' x ∂gaussianReal 0 v := by
+  rcases eq_or_ne v 0 with rfl | hv
+  · simp [gaussianReal_zero_var]
+  have hv' : (v : ℝ) ≠ 0 := by exact_mod_cast hv
+  have key := integral_mul_deriv_eq_deriv_mul_of_integrable (u := f)
+    (v := gaussianPDFReal 0 v) (u' := f') (v' := fun x => -(x - 0) / v * gaussianPDFReal 0 v x)
+    (fun x _ => hf x) (fun x _ => hasDerivAt_gaussianPDFReal 0 hv x)
+    (((integrable_gaussianPDFReal_mul hv hxf).const_mul (-(v : ℝ)⁻¹)).congr
+      (ae_of_all _ fun x => by simp only [Pi.mul_apply]; ring))
+    (((integrable_gaussianPDFReal_mul hv hf')).congr
+      (ae_of_all _ fun x => by simp only [Pi.mul_apply]; ring))
+    (((integrable_gaussianPDFReal_mul hv hfi)).congr
+      (ae_of_all _ fun x => by simp only [Pi.mul_apply]; ring))
+  rw [integral_gaussianReal_eq_integral_smul hv, integral_gaussianReal_eq_integral_smul hv]
+  simp only [smul_eq_mul]
+  have h1 : ∫ x, f x * (-(x - 0) / v * gaussianPDFReal 0 v x) =
+      -(v : ℝ)⁻¹ * ∫ x, gaussianPDFReal 0 v x * (x * f x) := by
+    rw [← integral_const_mul]
+    congr 1 with x
+    ring
+  have h2 : ∫ x, f' x * gaussianPDFReal 0 v x = ∫ x, gaussianPDFReal 0 v x * f' x := by
+    congr 1 with x
+    ring
+  rw [h1, h2] at key
+  calc ∫ x, gaussianPDFReal 0 v x * (x * f x)
+      = -(v : ℝ) * (-(v : ℝ)⁻¹ * ∫ x, gaussianPDFReal 0 v x * (x * f x)) := by
+        field_simp
+    _ = v * ∫ x, gaussianPDFReal 0 v x * f' x := by rw [key]; ring
+
+end SteinLemma
+
+/-- **Stein's lemma**: E[x · f(x)] = c · E[f'(x)] under the centered Gaussian measure
+N(0, c) (`ProbabilityTheory.gaussianReal 0 c.toNNReal`), for `f` differentiable with `f` and
+`f'` of polynomial growth. -/
+theorem stein_lemma (c : ℝ) (hc : 0 ≤ c) (f : ℝ → ℝ) (hf : Differentiable ℝ f)
+    (hf_growth : ∃ C n, ∀ x, |f x| ≤ C * (1 + |x|) ^ n)
+    (hf'_growth : ∃ C n, ∀ x, |deriv f x| ≤ C * (1 + |x|) ^ n) :
+    ∫ x, x * f x ∂(ProbabilityTheory.gaussianReal 0 c.toNNReal) =
+      c * ∫ x, deriv f x ∂(ProbabilityTheory.gaussianReal 0 c.toNNReal) := by
+  obtain ⟨C, n, hb⟩ := hf_growth
+  obtain ⟨C', n', hb'⟩ := hf'_growth
+  have hfm : AEStronglyMeasurable f (ProbabilityTheory.gaussianReal 0 c.toNNReal) :=
+    hf.continuous.aestronglyMeasurable
+  have hxb : ∀ x, |x * f x| ≤ C * (1 + |x|) ^ (n + 1) := fun x => by
+    rw [abs_mul, pow_succ]
+    have hx : |x| ≤ 1 + |x| := by linarith [abs_nonneg x]
+    calc |x| * |f x| ≤ (1 + |x|) * (C * (1 + |x|) ^ n) :=
+          mul_le_mul hx (hb x) (abs_nonneg _) (by positivity)
+      _ = C * ((1 + |x|) ^ n * (1 + |x|)) := by ring
+  have h := SteinLemma.integral_mul_gaussianReal_of_integrable (v := c.toNNReal)
+    (fun x => (hf x).hasDerivAt) (SteinLemma.integrable_of_abs_le_gaussianReal hfm hb)
+    (SteinLemma.integrable_of_abs_le_gaussianReal
+      (measurable_id.mul hf.continuous.measurable).aestronglyMeasurable hxb)
+    (SteinLemma.integrable_of_abs_le_gaussianReal
+      (measurable_deriv f).aestronglyMeasurable hb')
+  rwa [Real.coe_toNNReal c hc] at h
 
 /-! ## Wick orthogonality -/
 
 /-- **Wick monomial has zero mean under matching Gaussian.**
 
-For n ≥ 1: ∫ :x^n:_c dN(0,c) = 0.
+For n ≥ 1: ∫ :x^n:_c dN(0,c) = 0, under `ProbabilityTheory.gaussianReal 0 c.toNNReal`.
 
 Proof by induction on n:
 - Base (n=1): :x^1: = x, so ∫ x dμ = 0 (centered Gaussian).
 - Step (n → n+1): Using the Wick recursion
     :x^{n+1}: = x · :x^n: - n·c · :x^{n-1}:
-  and Stein's lemma E[x·f(x)] = c·E[f'(x)]:
+  and Stein's lemma E[x·f(x)] = c·E[f'(x)] (`stein_lemma`):
     E[:x^{n+1}:] = E[x · :x^n:] - n·c · E[:x^{n-1}:]
                  = c · E[d/dx :x^n:] - n·c · E[:x^{n-1}:]
                  = c · n · E[:x^{n-1}:] - n·c · E[:x^{n-1}:]
                  = 0.
 -/
-theorem wickMonomial_mean_zero (c : ℝ) (hc : 0 < c)
-    (μ : Measure ℝ) [IsProbabilityMeasure μ]
-    (hμ_mean : ∫ x, x ∂μ = 0)
-    (hμ_stein : ∀ f : ℝ → ℝ, Differentiable ℝ f →
-      (∃ C n, ∀ x, |f x| ≤ C * (1 + |x|) ^ n) →
-      ∫ x, x * f x ∂μ = c * ∫ x, deriv f x ∂μ)
-    (n : ℕ) (hn : 1 ≤ n) :
-    ∫ x, wickMonomial n c x ∂μ = 0 := by
+theorem wickMonomial_mean_zero (c : ℝ) (hc : 0 ≤ c) (n : ℕ) (hn : 1 ≤ n) :
+    ∫ x, wickMonomial n c x ∂(ProbabilityTheory.gaussianReal 0 c.toNNReal) = 0 := by
   -- Induction on n
   induction n with
   | zero => omega
@@ -321,27 +326,29 @@ theorem wickMonomial_mean_zero (c : ℝ) (hc : 0 < c)
     cases m with
     | zero =>
       -- n = 1: :x^1: = x, and ∫ x dμ = 0
-      simp [wickMonomial]
-      exact hμ_mean
+      simp only [zero_add, wickMonomial_one]
+      exact ProbabilityTheory.integral_id_gaussianReal
     | succ k =>
       -- n = k+2: use recursion + Stein + induction hypothesis
-      -- :x^{k+2}: = x · :x^{k+1}: - (k+1)·c · :x^k:
-      -- E[:x^{k+2}:] = E[x · :x^{k+1}:] - (k+1)·c · E[:x^k:]
-      -- = c · (k+1) · E[:x^k:] - (k+1)·c · E[:x^k:]  [Stein + deriv]
-      -- = 0 [the two terms cancel algebraically]
       -- Step 1: Unfold the recursion inside the integral
       simp_rw [wickMonomial_succ_succ k c]
       -- Step 2: Split the integral (requires integrability)
-      rw [integral_sub (xmul_wickMonomial_integrable (k + 1) c hc μ hμ_stein)
-        ((wickMonomial_integrable k c hc μ hμ_stein).const_mul _)]
-      -- Step 3: Apply Stein's lemma to ∫ x * W_{k+1}(x) dμ
-      have hstein := hμ_stein (wickMonomial (k + 1) c)
-        (wickMonomial_differentiable (k + 1) c) (wickMonomial_growth (k + 1) c)
-      rw [hstein]
-      -- Step 4: Compute deriv (W_{k+1}) = (k+1) * W_k
+      rw [integral_sub (xmul_wickMonomial_integrable (k + 1) c _)
+        ((wickMonomial_integrable k c _).const_mul _)]
+      -- Step 3: Compute deriv (W_{k+1}) = (k+1) * W_k
       have hderiv : (fun x => deriv (wickMonomial (k + 1) c) x) =
         fun x => ↑(k + 1) * wickMonomial k c x := by
         ext x; exact (wickMonomial_hasDerivAt_all c (k + 1) x).deriv
+      -- Step 4: Apply Stein's lemma to ∫ x * W_{k+1}(x) dμ
+      have hgrowth' : ∃ (C : ℝ) (d : ℕ), ∀ x : ℝ,
+          |deriv (wickMonomial (k + 1) c) x| ≤ C * (1 + |x|) ^ d := by
+        obtain ⟨C, d, hb⟩ := wickMonomial_growth k c
+        refine ⟨(k + 1) * C, d, fun x => ?_⟩
+        rw [congrFun hderiv x, abs_mul, mul_assoc]
+        exact mul_le_mul (by norm_cast) (hb x) (abs_nonneg _) (by positivity)
+      have hstein := stein_lemma c hc (wickMonomial (k + 1) c)
+        (wickMonomial_differentiable (k + 1) c) (wickMonomial_growth (k + 1) c) hgrowth'
+      rw [hstein]
       simp_rw [hderiv]
       -- Step 5: Pull out constants and cancel
       rw [integral_const_mul, integral_const_mul]
